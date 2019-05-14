@@ -2,11 +2,9 @@ import exceptions.All.CommDontExist;
 
 public enum Commands {
 
-<<<<<<< Updated upstream
-	CART("CRIA CARRINHO"), HELP("HELP"),ITEM("CRIA ARTIGO"), DEPOSIT("DEPOSITA"), REMOVE("REMOVE"), LIST("LISTA"), PAY("PAGA"),
-=======
-	ADDSHOW("ADDSHOW"), ITEM("CRIA ARTIGO"), DEPOSIT("DEPOSITA"), REMOVE("REMOVE"), LIST("LISTA"), PAY("PAGA"),
->>>>>>> Stashed changes
+
+	ADDSHOW("ADDSHOW"), HELP("HELP"), DEPOSIT("DEPOSITA"), REMOVE("REMOVE"), LIST("LISTA"), PAY("PAGA"),
+
 	EXIT("EXIT"), UNKNOWN("UNKNOWN");
 
 	private final String name;

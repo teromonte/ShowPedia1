@@ -12,13 +12,9 @@ public class Main {
 	//constantes que definem as mensagens
 	
 	private static final String SHOW_ADDED = "%s created.\n";
-<<<<<<< Updated upstream
-	private static final String GOODBYE = "Bye!";
-=======
 	private static final String SHOW_ALREADY_EXISTS = "Show already exists!";
 	private static final String GOODBYE = "Bye!";
 	private static final String UNKNOWN_SHOW = "Unknown show!";
->>>>>>> Stashed changes
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -44,30 +40,23 @@ public class Main {
 	}
 	private static void executeCommand(Commands option, Aplication a1, Scanner in) {
 		switch (option) {
-<<<<<<< Updated upstream
+
 		case HELP:
 			processHelp();
 			break;
-		case CART:
-			addShow(input, a1);
-=======
 		case ADDSHOW:
 			addShow(in, a1);
->>>>>>> Stashed changes
 			break;
 		default:
 			break;
 		}
 	}
-<<<<<<< Updated upstream
+
 	
 	private static void processHelp() {
 		for (StaticMethods.Help d : StaticMethods.Help.values())
 			StaticMethods.pegaAjuda(d);
 	}
-
-=======
->>>>>>> Stashed changes
 	private static void addShow(Scanner in, Aplication a1) {
 		String showName = in.nextLine();
 		try {
