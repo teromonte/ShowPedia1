@@ -10,18 +10,20 @@ import object.Show.ShowClass;
 
 public class AplicationClass implements Aplication {
 	
-	private Map<String,Show>showList;
+	private Map<String,Show> shows;
+	
 	private Show currentShow;
+	
 	public AplicationClass() {
-		showList = new HashMap<String, Show>();
+		shows = new HashMap<String, Show>();
 		currentShow = null;
 	}
 	public void addShow(String showName) throws ExistShowException {
-		if(showList.containsKey(showName)) {
+		if(shows.containsKey(showName)) {
 			throw new ExistShowException();
 		}else {
 			Show s = new ShowClass(showName);
-			showList.put(showName, s);
+			shows.put(showName, s);
 		}
 	}
 	public String getCurrentShow() throws NotExistShowException{
@@ -32,10 +34,15 @@ public class AplicationClass implements Aplication {
 		return String.format("%s. Seasons: %d Episodes: %d",currentShow.getShowName(),currentShow.getNumberOfSeasons(),numberOfEpisodes);
 	}
 	public void switchToShow(String showName) throws NotExistShowException {
-		if(showList.containsKey(showName)) {
-			currentShow = showList.get(showName);
+		if(shows.containsKey(showName)) {
+			currentShow = shows.get(showName);
 		}else {
 			throw new NotExistShowException();
 		}
+	}
+	
+	public void addSeason() {
+		currentShow.addSeason();
+		
 	}
 }

@@ -27,4 +27,6 @@ public interface Show {
 	 * @return total episodes count.
 	 */
 	int getAllEpisodesNumber();
+	
+	void addSeason();
 }

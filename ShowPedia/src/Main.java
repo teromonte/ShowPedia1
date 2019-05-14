@@ -51,12 +51,11 @@ public class Main {
 		case CURRENTSHOW:
 			currentShow(a1);
 			break;
-<<<<<<< Updated upstream
 		case SWITCHTOSHOW:
 			switchToShow(in, a1);
 			break;
-=======
->>>>>>> Stashed changes
+		case ADDSEASON:
+			addSeason(a1);
 		default:
 			break;
 		}
@@ -93,5 +92,11 @@ public class Main {
 		} catch (NotExistShowException except) {
 			System.out.println(UNKNOWN_SHOW);
 		}
+	}
+	
+	private static void addSeason(Aplication a1) {
+		
+		a1.addSeason();
+		System.out.println();
 	}
 }

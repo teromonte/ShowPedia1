@@ -25,4 +25,6 @@ public interface Aplication {
 	 * @return a string with the show name, followed by the number of available seasons and total episodes count.
 	 */
 	String getCurrentShow() throws NotExistShowException;
+	
+	void addSeason();
 }
