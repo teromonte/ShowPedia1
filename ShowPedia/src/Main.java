@@ -9,7 +9,7 @@ import exceptions.All.ExistShowException;
 public class Main {
 
 	private static final String SHOW_ADDED = "%s created.\n";
-	private static final String GOODBYE = "Bye!";
+	private static final String GOODBYE = "Bye!";//asd
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
