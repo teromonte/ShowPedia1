@@ -9,4 +9,6 @@ public class CommDontExist extends Exception {
 	public CommDontExist() {
 		super();//treterttrtertrtrtr
 	}
+	//asd
+	
 }
