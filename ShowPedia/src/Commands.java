@@ -2,7 +2,7 @@ import exceptions.All.CommDontExist;
 
 public enum Commands {
 
-	CART("CRIA CARRINHO"), ITEM("CRIA ARTIGO"), DEPOSIT("DEPOSITA"), REMOVE("REMOVE"), LIST("LISTA"), PAY("PAGA"),
+	CART("CRIA CARRINHO"), HELP("HELP"),ITEM("CRIA ARTIGO"), DEPOSIT("DEPOSITA"), REMOVE("REMOVE"), LIST("LISTA"), PAY("PAGA"),
 	EXIT("EXIT"), UNKNOWN("UNKNOWN");
 
 	private final String name;
