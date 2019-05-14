@@ -97,6 +97,11 @@ public class Main {
 	private static void addSeason(Aplication a1) {
 		
 		a1.addSeason();
-		System.out.println();
+		try {
+			System.out.println(a1.getCurrentShow());
+		} catch (NotExistShowException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

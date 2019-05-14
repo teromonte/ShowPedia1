@@ -33,6 +33,7 @@ public class AplicationClass implements Aplication {
 		int numberOfEpisodes = currentShow.getAllEpisodesNumber();
 		return String.format("%s. Seasons: %d Episodes: %d",currentShow.getShowName(),currentShow.getNumberOfSeasons(),numberOfEpisodes);
 	}
+	
 	public void switchToShow(String showName) throws NotExistShowException {
 		if(shows.containsKey(showName)) {
 			currentShow = shows.get(showName);
