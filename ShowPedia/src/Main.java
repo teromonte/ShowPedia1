@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
 import exceptions.All.CommDontExist;
