@@ -26,8 +26,14 @@ public class ShowClass implements Show {
 		seasonsPerEpisode.put(numberSeasons, null);
 	}
 	
-	public String getString() {
+	public String getShowName() {
 		return name;
+	}
+	public int getNumberOfSeasons() {
+		return numberSeasons;
+	}
+	public Map<Integer, List<Episode>> getSeasonsPerEpisode(){
+		return seasonsPerEpisode;
 	}
 
 }
