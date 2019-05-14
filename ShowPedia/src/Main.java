@@ -2,13 +2,16 @@ import java.util.Scanner;
 
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
+
 import exceptions.All.CommDontExist;
+import exceptions.All.ExistShowException;
 
 public class Main {
 
+	private static final String SHOW_ADDED = "%s created.\n";
 	private static final String GOODBYE = "Volte sempre.\n";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ExistShowException {
 		Aplication a1 = new AplicationClass();
 		Scanner input = new Scanner(System.in);
 		Commands option = getCommand(input);
@@ -20,8 +23,8 @@ public class Main {
 		System.out.println(GOODBYE);
 		input.close();
 	}
-
 	private static Commands getCommand(Scanner input) {
+
 		String nameTwo = "";
 		String name = input.next().toUpperCase();
 		if (name.equals("CRIA")) {
@@ -37,21 +40,31 @@ public class Main {
 			System.out.println(Commands.UNKNOWN);
 			return Commands.UNKNOWN;
 		}
-
 	}
 
-	private static void executeCommand(Commands option, Aplication supermarket, Scanner input) {
+	private static void executeCommand(Commands option, Aplication a1, Scanner input){
 		switch (option) {
 		case CART:
-			criaCarrinho(supermarket, input);
+			addShow(input, a1);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private static void criaCarrinho(Aplication a1, Scanner in) {
 
+	private static void addShow(Scanner in, Aplication a1){
+		String showName = in.nextLine();
+		try {
+			a1.addShow(showName);
+			System.out.printf(SHOW_ADDED,showName);
+		}catch (ExistShowException except) {
+			
+		}
+		
+	}
+	private static void existShowExceptionHandler() {
+		
 	}
 
 }
