@@ -1,5 +1,7 @@
 package aplication.Admin;
 
-public class AplicationClass {
+public class AplicationClass implements Aplication {
+	public AplicationClass() {
 
+	}
 }

@@ -1,4 +1,3 @@
-import exceptions.All.CommDontExist;
 
 public enum Commands {
 
@@ -13,17 +12,6 @@ public enum Commands {
 
 	public String getName() {
 		return name;
-	}
-
-	public static Commands fromString(String command) throws CommDontExist {
-		for (Commands c : Commands.values()) {
-			if (c.getName().equalsIgnoreCase(command)) {
-				return c;
-			}
-		}
-		CommDontExist exception;
-		exception = new CommDontExist();
-		throw exception;
 	}
 
 }
