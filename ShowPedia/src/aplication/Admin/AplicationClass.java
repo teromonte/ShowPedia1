@@ -5,6 +5,8 @@ import java.util.Map;
 
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
+import object.Episode.Episode;
+import object.Episode.EpisodeClass;
 import object.Show.Show;
 import object.Show.ShowClass;
 
@@ -26,6 +28,9 @@ public class AplicationClass implements Aplication {
 			shows.put(showName, s);
 		}
 	}
+	public boolean isThereSelectedShow() {
+		return currentShow!=null;
+	}
 	public String getCurrentShow() throws NotExistShowException{
 		if(currentShow==null) {
 			throw new NotExistShowException();
@@ -41,8 +46,20 @@ public class AplicationClass implements Aplication {
 		}
 	}
 	
-	public void addSeason() {
-		currentShow.addSeason();
-		
+	public void addSeason() throws NotExistShowException{
+		if(isThereSelectedShow()) {
+			currentShow.addSeason();
+		}else {
+			throw new NotExistShowException();
+		}
+	}
+	public void addEpisode(int seasonNumber, String episodeName) throws NotExistShowException {
+		if(!isThereSelectedShow()) {
+			throw new NotExistShowException("NOSHOW");
+		}else if(!currentShow.getSeasonsPerEpisode().containsKey(seasonNumber)){
+			throw new NotExistShowException("NOSEASON");
+		}else {
+			currentShow.addEpisodeToSeason(seasonNumber, episodeName);
+		}
 	}
 }

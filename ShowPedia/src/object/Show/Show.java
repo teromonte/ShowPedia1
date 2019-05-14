@@ -27,6 +27,15 @@ public interface Show {
 	 * @return total episodes count.
 	 */
 	int getAllEpisodesNumber();
-	
+	/**
+	 * increments the number of seasons
+	 */
 	void addSeason();
+	/**
+	 * adds an episode to a season assuming there is not any episoded named "episodeName"
+	 * @param season the season number
+	 * @param episodeName the episode name
+	 * 
+	 */
+	void addEpisodeToSeason(int season, String episodeName);
 }
