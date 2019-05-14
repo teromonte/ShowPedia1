@@ -69,7 +69,7 @@ public class Main {
 	}
 
 	private static void addShow(Scanner in, Aplication a1) {
-		String showName = in.nextLine();
+		String showName = in.nextLine().trim();
 		try {
 			a1.addShow(showName);
 			System.out.printf(SHOW_ADDED, showName);
@@ -87,7 +87,7 @@ public class Main {
 	}
 
 	private static void switchToShow(Scanner in, Aplication a1) {
-		String showName = in.nextLine();
+		String showName = in.nextLine().trim();
 		try {
 			a1.switchToShow(showName);
 			currentShow(a1);
