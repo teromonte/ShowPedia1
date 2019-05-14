@@ -3,7 +3,7 @@ import exceptions.All.CommDontExist;
 public enum Commands {
 
 	CART("CRIA CARRINHO"), ITEM("CRIA ARTIGO"), DEPOSIT("DEPOSITA"), REMOVE("REMOVE"), LIST("LISTA"), PAY("PAGA"),
-	EXIT("SAIR"), UNKNOWN("UNKNOWN");
+	EXIT("EXIT"), UNKNOWN("UNKNOWN");
 
 	private final String name;
 

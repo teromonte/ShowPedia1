@@ -9,9 +9,9 @@ import exceptions.All.ExistShowException;
 public class Main {
 
 	private static final String SHOW_ADDED = "%s created.\n";
-	private static final String GOODBYE = "Volte sempre.\n";
+	private static final String GOODBYE = "Bye!";
 
-	public static void main(String[] args) throws ExistShowException {
+	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
 		Scanner input = new Scanner(System.in);
 		Commands option = getCommand(input);
@@ -23,26 +23,19 @@ public class Main {
 		System.out.println(GOODBYE);
 		input.close();
 	}
+
 	private static Commands getCommand(Scanner input) {
-
-		String nameTwo = "";
 		String name = input.next().toUpperCase();
-		if (name.equals("CRIA")) {
-			nameTwo = input.next().toUpperCase().trim();
-		}
-
 		try {
-			if (!name.equals("CRIA"))
-				return Commands.fromString(name);
-			else
-				return Commands.fromString(name + " " + nameTwo);
+			return Commands.fromString(name);
+
 		} catch (CommDontExist e) {
 			System.out.println(Commands.UNKNOWN);
 			return Commands.UNKNOWN;
 		}
 	}
 
-	private static void executeCommand(Commands option, Aplication a1, Scanner input){
+	private static void executeCommand(Commands option, Aplication a1, Scanner input) {
 		switch (option) {
 		case CART:
 			addShow(input, a1);
@@ -52,19 +45,19 @@ public class Main {
 		}
 	}
 
-
-	private static void addShow(Scanner in, Aplication a1){
+	private static void addShow(Scanner in, Aplication a1) {
 		String showName = in.nextLine();
 		try {
 			a1.addShow(showName);
-			System.out.printf(SHOW_ADDED,showName);
-		}catch (ExistShowException except) {
-			
+			System.out.printf(SHOW_ADDED, showName);
+		} catch (ExistShowException except) {
+
 		}
-		
+
 	}
+
 	private static void existShowExceptionHandler() {
-		
+
 	}
 
 }
