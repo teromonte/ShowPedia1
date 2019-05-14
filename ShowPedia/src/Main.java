@@ -51,9 +51,12 @@ public class Main {
 		case CURRENTSHOW:
 			currentShow(a1);
 			break;
+<<<<<<< Updated upstream
 		case SWITCHTOSHOW:
 			switchToShow(in, a1);
 			break;
+=======
+>>>>>>> Stashed changes
 		default:
 			break;
 		}
@@ -73,6 +76,7 @@ public class Main {
 			System.out.println(SHOW_ALREADY_EXISTS);
 		}
 	}
+
 	private static void currentShow(Aplication a1) {
 		try {
 			System.out.println(a1.getCurrentShow());
