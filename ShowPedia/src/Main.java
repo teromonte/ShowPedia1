@@ -9,7 +9,7 @@ import exceptions.All.ExistShowException;
 public class Main {
 
 	private static final String SHOW_ADDED = "%s created.\n";
-	private static final String GOODBYE = "Bye!";//asd
+	private static final String GOODBYE = "Bye!";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -37,12 +37,20 @@ public class Main {
 
 	private static void executeCommand(Commands option, Aplication a1, Scanner input) {
 		switch (option) {
+		case HELP:
+			processHelp();
+			break;
 		case CART:
 			addShow(input, a1);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	private static void processHelp() {
+		for (StaticMethods.Help d : StaticMethods.Help.values())
+			StaticMethods.pegaAjuda(d);
 	}
 
 	private static void addShow(Scanner in, Aplication a1) {
