@@ -25,6 +25,16 @@ public interface Aplication {
 	 * @return a string with the show name, followed by the number of available seasons and total episodes count.
 	 */
 	String getCurrentShow() throws NotExistShowException;
-	
-	void addSeason();
+	/**
+	 * adds a season to the currentShow
+	 * throws NotExistShowException If there is no selected show
+	 */
+	void addSeason()throws NotExistShowException;
+	/**
+	 * Add a new episode to a particular season of the show.
+	 * @param seasonNumber - the season 
+	 * @param episodeName - the episode name
+	 * @throws NotExistShowException If there is no selected show or If the referenced season does not exist
+	 */
+	void addEpisode(int seasonNumber, String episodeName) throws NotExistShowException;
 }
