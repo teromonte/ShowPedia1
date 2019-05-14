@@ -1,6 +1,8 @@
 package object.Show;
 
+
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -31,6 +33,15 @@ public class ShowClass implements Show {
 	}
 	public int getNumberOfSeasons() {
 		return numberSeasons;
+	}
+	public int getAllEpisodesNumber() {
+		int number = 0;
+		//some doubt about this
+		for (Iterator<List<Episode>> iterator = seasonsPerEpisode.values().iterator(); iterator.hasNext();) {
+			List<Episode> array = (List<Episode>) iterator.next();
+			number +=array.size();
+		}
+		return number;
 	}
 	public Map<Integer, List<Episode>> getSeasonsPerEpisode(){
 		return seasonsPerEpisode;

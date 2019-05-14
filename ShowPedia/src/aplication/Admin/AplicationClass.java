@@ -24,8 +24,11 @@ public class AplicationClass implements Aplication {
 			showList.put(showName, s);
 		}
 	}
-	public String getCurrentShow() {
-		int numberOfEpisodes = currentShow.getSeasonsPerEpisode().size();
+	public String getCurrentShow() throws NotExistShowException{
+		if(currentShow==null) {
+			throw new NotExistShowException();
+		}
+		int numberOfEpisodes = currentShow.getAllEpisodesNumber();
 		return String.format("%s. Seasons: %d Episodes: %d",currentShow.getShowName(),currentShow.getNumberOfSeasons(),numberOfEpisodes);
 	}
 	public void switchToShow(String showName) throws NotExistShowException {

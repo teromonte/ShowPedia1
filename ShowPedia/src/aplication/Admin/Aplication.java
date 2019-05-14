@@ -21,7 +21,8 @@ public interface Aplication {
 	void switchToShow(String showName) throws NotExistShowException;
 	/**
 	 * Show which is the current show.
+	 * throws NotExistShowException if there is not any selected show
 	 * @return a string with the show name, followed by the number of available seasons and total episodes count.
 	 */
-	String getCurrentShow();
+	String getCurrentShow() throws NotExistShowException;
 }

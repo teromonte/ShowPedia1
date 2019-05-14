@@ -14,6 +14,7 @@ public class Main {
 	private static final String SHOW_ADDED = "%s created.\n";
 	private static final String SHOW_ALREADY_EXISTS = "Show already exists!";
 	private static final String GOODBYE = "Bye!";
+	private static final String NO_SHOW_SELECTED = "No show is selected!";
 	private static final String UNKNOWN_SHOW = "Unknown show!";
 
 	public static void main(String[] args) {
@@ -47,6 +48,7 @@ public class Main {
 		case ADDSHOW:
 			addShow(in, a1);
 			break;
+		case CURRENTSHOW: currentShow(a1);break;
 		default:
 			break;
 		}
@@ -66,11 +68,18 @@ public class Main {
 			System.out.println(SHOW_ALREADY_EXISTS);
 		}
 	}
+	private static void currentShow(Aplication a1) {
+		try {
+			System.out.println(a1.getCurrentShow());
+		} catch(NotExistShowException except) {
+			System.out.println(NO_SHOW_SELECTED);
+		}
+	}
 	private static void switchToShow(Scanner in, Aplication a1) {
 		String showName = in.nextLine();
 		try {
 			a1.switchToShow(showName);
-			System.out.println(a1.);
+			currentShow(a1);
 		}catch (NotExistShowException except) {
 			System.out.println(UNKNOWN_SHOW);
 		}
