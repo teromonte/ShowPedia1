@@ -3,40 +3,16 @@ import java.util.Scanner;
 
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
-<<<<<<< HEAD
+
+import exceptions.All.CommDontExist;
 import exceptions.All.ExistShowException;
 
 public class Main {
-	
-	//
+
 	private static final String SHOW_ADDED = "%s created.\n";
 	private static final String GOODBYE = "Volte sempre.\n";
 
-	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		Aplication a1 = new AplicationClass();
-		
-		
-
-	}
-
-	private static void interpreter(Scanner in, Aplication a1) {
-		Commands comm = getCommand(in);
-		while (!comm.equals(Commands.EXIT)) {
-			executeCommand(comm, a1, in);
-			comm = getCommand(in);
-			System.out.println();
-		}
-		System.out.println(GOODBYE);
-		in.close();
-=======
-import exceptions.All.CommDontExist;
-
-public class Main {
-
-	private static final String GOODBYE = "Volte sempre.\n";
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ExistShowException {
 		Aplication a1 = new AplicationClass();
 		Scanner input = new Scanner(System.in);
 		Commands option = getCommand(input);
@@ -47,12 +23,9 @@ public class Main {
 		}
 		System.out.println(GOODBYE);
 		input.close();
->>>>>>> master
 	}
 	private static Commands getCommand(Scanner input) {
-<<<<<<< HEAD
-		return Commands.EXIT;
-=======
+
 		String nameTwo = "";
 		String name = input.next().toUpperCase();
 		if (name.equals("CRIA")) {
@@ -68,22 +41,20 @@ public class Main {
 			System.out.println(Commands.UNKNOWN);
 			return Commands.UNKNOWN;
 		}
-
->>>>>>> master
 	}
 
-	private static void executeCommand(Commands option, Aplication supermarket, Scanner input) {
+	private static void executeCommand(Commands option, Aplication a1, Scanner input){
 		switch (option) {
 		case CART:
-			criaCarrinho(supermarket, input);
+			addShow(input, a1);
 			break;
 		default:
 			break;
 		}
 	}
 
-<<<<<<< HEAD
-	private static void addShow(Scanner in, Aplication a1) throws ExistShowException {
+
+	private static void addShow(Scanner in, Aplication a1){
 		String showName = in.nextLine();
 		try {
 			a1.addShow(showName);
@@ -95,10 +66,6 @@ public class Main {
 	}
 	private static void existShowExceptionHandler() {
 		
-=======
-	private static void criaCarrinho(Aplication a1, Scanner in) {
-
->>>>>>> master
 	}
 
 }
