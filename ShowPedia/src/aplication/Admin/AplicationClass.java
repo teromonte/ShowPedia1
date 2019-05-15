@@ -8,15 +8,16 @@ import java.util.Set;
 
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
+import object.Actor.RealActorClass;
 import object.Episode.Episode;
 import object.Episode.EpisodeClass;
 import object.Show.Show;
 import object.Show.ShowClass;
 
 public class AplicationClass implements Aplication {
-	
+	private static final String REAL = "REAL";
+	private static final String VIRTUAL = "VIRTUAL";
 	private Map<String,Show> shows;
-	
 	private Show currentShow;
 	private String currentShowName;
 	
@@ -68,6 +69,19 @@ public class AplicationClass implements Aplication {
 			currentShow.addEpisodeToSeason(seasonNumber, episodeName);
 		}
 	}
+	public void addCharacter (String characterName, String actorName, int feePerEpisode, String type) {
+		if(REAL.equals(type)) {
+			RealActor r = new RealActorClass(characterName, actorName, feePerEpisode, REAL);
+			shows.put(key, value)
+		}else if(VIRTUAL.equals(type)) {
+			
+		}
+	}
+	/**
+	 * looks for a String key in the map, ignoring string's cases
+	 * @param showName
+	 * @return
+	 */
 	private boolean mapContainsThisKey(String showName) {
 		Set<String> c = shows.keySet();
 		for (String string : c) {
