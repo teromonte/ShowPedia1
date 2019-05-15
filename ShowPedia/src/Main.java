@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
-
 import exceptions.All.CommDontExist;
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
@@ -31,12 +30,15 @@ public class Main {
 	}
 
 	private static Commands getCommand(Scanner in) {
+		System.out.print("> ");
 		String name = in.next().toUpperCase();
-		in.nextLine();
+		if (!Commands.isCommValid(name)) {
+			name = in.nextLine().toUpperCase();
+		} 
 		try {
 			return Commands.fromString(name);
 		} catch (CommDontExist e) {
-			System.out.println(Commands.UNKNOWN);
+			System.out.println("Unknown command. Type help to see available commands.");
 			return Commands.UNKNOWN;
 		}
 	}
@@ -56,8 +58,11 @@ public class Main {
 			switchToShow(in, a1);
 			break;
 		case ADDSEASON:
-			addSeason(a1);break;
-		case ADDEPISODE: addEpisodeToSeason(in, a1);break;
+			addSeason(a1);
+			break;
+		case ADDEPISODE:
+			addEpisodeToSeason(in, a1);
+			break;
 		default:
 			break;
 		}
@@ -95,29 +100,36 @@ public class Main {
 			System.out.println(UNKNOWN_SHOW);
 		}
 	}
+
 	private static void addSeason(Aplication a1) {
 		try {
 			a1.addSeason();
-		}catch (NotExistShowException except) {
+			currentShow(a1);
+		} catch (NotExistShowException except) {
 			System.out.println(NO_SHOW_SELECTED);
 		}
-	
+
 	}
+
 	private static void addEpisodeToSeason(Scanner in, Aplication a1) {
 		int seasonNumber = in.nextInt();
 		String episodeName = in.nextLine();
 		try {
 			a1.addEpisode(seasonNumber, episodeName);
 			currentShow(a1);
-		}catch (NotExistShowException except) {
+		} catch (NotExistShowException except) {
 			handleNotExistShowException(except);
 		}
 	}
-	
-	private static void handleNotExistShowException (NotExistShowException except) {
-		switch(except.getMessage()) {
-		case "NOSHOW": System.out.println(NO_SHOW_SELECTED);break;
-		case "NOSEASON":System.out.println(UNKNOWN_SEASON);break;
+
+	private static void handleNotExistShowException(NotExistShowException except) {
+		switch (except.getMessage()) {
+		case "NOSHOW":
+			System.out.println(NO_SHOW_SELECTED);
+			break;
+		case "NOSEASON":
+			System.out.println(UNKNOWN_SEASON);
+			break;
 		}
 	}
 }

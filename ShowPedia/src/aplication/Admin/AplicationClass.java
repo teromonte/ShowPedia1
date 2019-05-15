@@ -1,77 +1,79 @@
 package aplication.Admin;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
-import object.Episode.Episode;
-import object.Episode.EpisodeClass;
 import object.Show.Show;
 import object.Show.ShowClass;
 
 public class AplicationClass implements Aplication {
-	
-	private Map<String,Show> shows;
-	
+
+	private Map<String, Show> shows;
+
 	private Show currentShow;
 	private String currentShowName;
-	
+
 	public AplicationClass() {
 		shows = new HashMap<String, Show>();
 		currentShow = null;
 		currentShowName = null;
 	}
+
 	public void addShow(String showName) throws ExistShowException {
-		if(shows.containsKey(showName)) {
+		if (shows.containsKey(showName)) {
 			throw new ExistShowException();
-		}else {
+		} else {
 			Show s = new ShowClass(showName);
 			shows.put(showName, s);
 		}
 	}
+
 	public boolean isThereSelectedShow() {
-		return currentShow!=null;
+		return currentShow != null;
 	}
-	public String getCurrentShow() throws NotExistShowException{
-		if(currentShow==null) {
+
+	public String getCurrentShow() throws NotExistShowException {
+		if (currentShow == null) {
 			throw new NotExistShowException();
 		}
 		int numberOfEpisodes = currentShow.getAllEpisodesNumber();
-		return String.format("%s. Seasons: %d Episodes: %d",currentShow.getShowName(),currentShow.getNumberOfSeasons(),numberOfEpisodes);
+		return String.format("%s. Seasons: %d Episodes: %d", currentShow.getShowName(),
+				currentShow.getNumberOfSeasons(), numberOfEpisodes);
 	}
-	
+
 	public void switchToShow(String showName) throws NotExistShowException {
-		if(mapContainsThisKey(showName)) {
+		if (mapContainsThisKey(showName)) {
 			currentShow = shows.get(currentShowName);
-		}else {
+		} else {
 			throw new NotExistShowException();
 		}
 	}
-	
-	public void addSeason() throws NotExistShowException{
-		if(isThereSelectedShow()) {
+
+	public void addSeason() throws NotExistShowException {
+		if (isThereSelectedShow()) {
 			currentShow.addSeason();
-		}else {
+		} else {
 			throw new NotExistShowException();
 		}
 	}
+
 	public void addEpisode(int seasonNumber, String episodeName) throws NotExistShowException {
-		if(!isThereSelectedShow()) {
+		if (!isThereSelectedShow()) {
 			throw new NotExistShowException("NOSHOW");
-		}else if(!currentShow.getSeasonsPerEpisode().containsKey(seasonNumber)){
+		} else if (!currentShow.getSeasonsPerEpisode().containsKey(seasonNumber)) {
 			throw new NotExistShowException("NOSEASON");
-		}else {
+		} else {
 			currentShow.addEpisodeToSeason(seasonNumber, episodeName);
 		}
 	}
+
 	private boolean mapContainsThisKey(String showName) {
 		Set<String> c = shows.keySet();
 		for (String string : c) {
-			if(showName.equalsIgnoreCase(string)) {
+			if (showName.equalsIgnoreCase(string)) {
 				currentShowName = string;
 				return true;
 			}

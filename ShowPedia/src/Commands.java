@@ -2,10 +2,10 @@ import exceptions.All.CommDontExist;
 
 public enum Commands {
 
+	ADDSHOW("ADDSHOW"), HELP("HELP"), CURRENTSHOW("CURRENTSHOW"), SWITCHTOSHOW("SWITCHTOSHOW"), ADDSEASON("ADDSEASON"),
+	ADDEPISODE("ADDEPISODE"),
 
-	ADDSHOW("ADDSHOW"), HELP("HELP"), CURRENTSHOW("CURRENTSHOW"), SWITCHTOSHOW("SWITCHTOSHOW"), ADDSEASON("ADDSEASON"), ADDEPISODE("ADDEPISODE"),
-
-	EXIT("EXIT"), UNKNOWN("UNKNOWN");
+	EXIT("EXIT"), UNKNOWN("Unknown command. Type help to see available commands.");
 
 	private final String name;
 
@@ -15,6 +15,16 @@ public enum Commands {
 
 	public String getName() {
 		return name;
+	}
+
+	public static boolean isCommValid(String command) {
+		if (command.equals("ADDSHOW") || command.equals("HELP") || command.equals("CURRENTSHOW")
+				|| command.equals("SWITCHTOSHOW") || command.equals("ADDSEASON") || command.equals("ADDEPISODE")
+				|| command.equals("EXIT")) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public static Commands fromString(String command) throws CommDontExist {
