@@ -3,6 +3,8 @@ package object.Show;
 import java.util.List;
 import java.util.Map;
 
+import exceptions.All.CharacterExistException;
+import object.Actor.Actor;
 import object.Episode.Episode;
 
 public interface Show {
@@ -38,4 +40,10 @@ public interface Show {
 	 * 
 	 */
 	void addEpisodeToSeason(int season, String episodeName);
+	/**
+	 * Add a new character to the show.
+	 * @param act an which can be a real or a virtual one 
+	 * @throws CharacterExistException
+	 */
+	void addCharacter(Actor act) throws CharacterExistException;
 }

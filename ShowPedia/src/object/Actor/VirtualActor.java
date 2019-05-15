@@ -1,5 +1,5 @@
 package object.Actor;
 
-public interface VirtualActor {
+public interface VirtualActor extends Actor{
 
 }

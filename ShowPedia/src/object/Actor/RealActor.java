@@ -1,5 +1,5 @@
 package object.Actor;
 
-public interface RealActor {
+public interface RealActor extends Actor {
 
 }

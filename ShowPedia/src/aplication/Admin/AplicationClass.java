@@ -6,10 +6,16 @@ import java.util.Set;
 
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
+import object.Actor.RealActorClass;
+import object.Episode.EpisodeClass;
+import object.Episode.Episode;
 import object.Show.Show;
 import object.Show.ShowClass;
 
 public class AplicationClass implements Aplication {
+	private static final String REAL = "REAL";
+	private static final String VIRTUAL = "VIRTUAL";
+	private Map<String,Show> shows;
 
 	private Map<String, Show> shows;
 
@@ -69,7 +75,6 @@ public class AplicationClass implements Aplication {
 			currentShow.addEpisodeToSeason(seasonNumber, episodeName);
 		}
 	}
-
 	private boolean mapContainsThisKey(String showName) {
 		Set<String> c = shows.keySet();
 		for (String string : c) {
