@@ -1,7 +1,10 @@
 package aplication.Admin;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
@@ -15,10 +18,12 @@ public class AplicationClass implements Aplication {
 	private Map<String,Show> shows;
 	
 	private Show currentShow;
+	private String currentShowName;
 	
 	public AplicationClass() {
 		shows = new HashMap<String, Show>();
 		currentShow = null;
+		currentShowName = null;
 	}
 	public void addShow(String showName) throws ExistShowException {
 		if(shows.containsKey(showName)) {
@@ -40,8 +45,8 @@ public class AplicationClass implements Aplication {
 	}
 	
 	public void switchToShow(String showName) throws NotExistShowException {
-		if(shows.containsKey(showName)) {
-			currentShow = shows.get(showName);
+		if(mapContainsThisKey(showName)) {
+			currentShow = shows.get(currentShowName);
 		}else {
 			throw new NotExistShowException();
 		}
@@ -62,5 +67,15 @@ public class AplicationClass implements Aplication {
 		}else {
 			currentShow.addEpisodeToSeason(seasonNumber, episodeName);
 		}
+	}
+	private boolean mapContainsThisKey(String showName) {
+		Set<String> c = shows.keySet();
+		for (String string : c) {
+			if(showName.equalsIgnoreCase(string)) {
+				currentShowName = string;
+				return true;
+			}
+		}
+		return false;
 	}
 }
