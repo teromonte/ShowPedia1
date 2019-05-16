@@ -25,7 +25,7 @@ public abstract class AbstractActorClass implements Actor {
 		return feePerEpisode;
 	}
 	public String getType() {
-		
+		return type;
 	}
 	
 

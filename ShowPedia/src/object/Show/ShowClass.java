@@ -1,16 +1,11 @@
 package object.Show;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import exceptions.All.CharacterExistException;
 import object.Actor.Actor;
 import object.Episode.Episode;
@@ -19,69 +14,77 @@ import object.Episode.EpisodeClass;
 public class ShowClass implements Show {
 
 	Map<Integer, List<Episode>> episodesPerSeason; // <TEMPORADA,EPISODIOS>
-	Map<String,Actor> characters;
-	Map<String, List<Episode>> episodePerActor;
-	private int numberSeasons;
+
+	Map<String, Actor> characters;
+
 	private int totalEpisodeCount;
 	private String name;
+	private int numberOfSesons;
 	private String currentSearchName;
+	private List<Episode> episodes;
 
 	public ShowClass(String name) {
-		episodesPerSeason = new HashMap<Integer, List<Episode>>();
-		characters = new HashMap<String,Actor>();
-		episodePerActor = new HashMap<String, List<Episode>>();
 		this.name = name;
-		currentSearchName = null;
-		numberSeasons = 1;
 		totalEpisodeCount = 0;
-		episodesPerSeason.put(numberSeasons, null);
+
+		episodesPerSeason = new HashMap<Integer, List<Episode>>(); //
+		numberOfSesons = 1; // Um show já comeca com uma temporada pronta
+		episodes = new LinkedList<Episode>(); // e um aray de episodios, logo de cara
+		episodesPerSeason.put(numberOfSesons, episodes); //
+
+		characters = new HashMap<String, Actor>();
+		currentSearchName = null;
+
 	}
-	
+
 	public String getShowName() {
 		return name;
 	}
 
 	public int getNumberOfSeasons() {
-		return numberSeasons;
+		return numberOfSesons;
 	}
 
 	public int getAllEpisodesNumber() {
 		return totalEpisodeCount;
 	}
+
 	public void addCharacter(Actor act) throws CharacterExistException {
 		String charName = act.getCharacterName();
-		if(mapContainsThisKey(charName)) {
+		if (mapContainsThisKey(charName)) {
 			throw new CharacterExistException();
-		}else {
-			characters.put(charName,act);
+		} else {
+			characters.put(charName, act);
 		}
-	}
-	public void addSeason() {
-		numberSeasons++;
 	}
 
-	public Map<Integer, List<Episode>> getSeasonsPerEpisode() {
+	public void addSeason() {
+		numberOfSesons++;
+		List<Episode> episodes = new LinkedList<Episode>();
+		episodesPerSeason.put(numberOfSesons, episodes);
+	}
+
+	public Map<Integer, List<Episode>> getEpisodesPerSeason() {
 		return episodesPerSeason;
 	}
+
 	public void addEpisodeToSeason(int season, String episodeName) {
-		Episode p= new EpisodeClass(episodeName);
-		List<Episode> list = episodesPerSeason.get(season);
-		if(list==null) {
-			list = new ArrayList<Episode>();
-		}
-		list.add(p);	
-		episodesPerSeason.put(season, list);
+		Episode p = new EpisodeClass(episodeName);
+		episodesPerSeason.get(season).add(p);
 		totalEpisodeCount++;
+		
 	}
+
 	/**
 	 * looks for a String key in the map, ignoring string's cases
+	 * 
 	 * @param showName
 	 * @return
 	 */
 	private boolean mapContainsThisKey(String showName) {
 		Set<String> c = characters.keySet();
 		for (String string : c) {
-			if(showName.equalsIgnoreCase(string)) {
+			if (showName.equalsIgnoreCase(string)) {
 				currentSearchName = string;
 				return true;
 			}

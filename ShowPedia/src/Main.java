@@ -15,7 +15,6 @@ public class Main {
 	private static final String GOODBYE = "Bye!";
 	private static final String NO_SHOW_SELECTED = "No show is selected!";
 	private static final String UNKNOWN_SHOW = "Unknown show!";
-	private static final String UNKNOWN_SEASON = "Unknown season!";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -34,7 +33,7 @@ public class Main {
 		String name = in.next().toUpperCase();
 		if (!Commands.isCommValid(name)) {
 			name = in.nextLine().toUpperCase();
-		} 
+		}
 		try {
 			return Commands.fromString(name);
 		} catch (CommDontExist e) {
@@ -113,23 +112,13 @@ public class Main {
 
 	private static void addEpisodeToSeason(Scanner in, Aplication a1) {
 		int seasonNumber = in.nextInt();
-		String episodeName = in.nextLine();
+		String episodeName = in.nextLine().trim();
 		try {
-			a1.addEpisode(seasonNumber, episodeName);
-			currentShow(a1);
+			System.out.println(a1.addEpisode(seasonNumber, episodeName));
+
 		} catch (NotExistShowException except) {
-			handleNotExistShowException(except);
+			StaticMethods.handleNotExistShowException(except);
 		}
 	}
 
-	private static void handleNotExistShowException(NotExistShowException except) {
-		switch (except.getMessage()) {
-		case "NOSHOW":
-			System.out.println(NO_SHOW_SELECTED);
-			break;
-		case "NOSEASON":
-			System.out.println(UNKNOWN_SEASON);
-			break;
-		}
-	}
 }

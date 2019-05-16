@@ -36,5 +36,5 @@ public interface Aplication {
 	 * @param episodeName - the episode name
 	 * @throws NotExistShowException If there is no selected show or If the referenced season does not exist
 	 */
-	void addEpisode(int seasonNumber, String episodeName) throws NotExistShowException;
+	String addEpisode(int seasonNumber, String episodeName) throws NotExistShowException;
 }

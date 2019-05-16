@@ -1,3 +1,4 @@
+import exceptions.All.NotExistShowException;
 
 public class StaticMethods {
 
@@ -20,6 +21,8 @@ public class StaticMethods {
 	public static final String ASDLH = "kingOfCGI - find out which company has earned more revenue with their CGI virtual actors";
 	public static final String HELP_INFO = "help - shows the available commands";
 	public static final String EXIT_INFO = "exit - terminates the execution of the program";
+	private static final String NO_SHOW_SELECTED = "No show is selected!";
+	private static final String UNKNOWN_SEASON = "Unknown season!";
 
 	public static final String UNKNOWN = "Unknown command. Type help to see available commands.";
 	public static final String BYE = "Bye!";
@@ -32,6 +35,17 @@ public class StaticMethods {
 		BASE_INFO, LISTBASES_INFO, DRONE_INFO, SERVICE_INFO, SWARM_INFO, SWARMCOMPONENTS_INFO, DISBAND_INFO,
 		LISTDRONES_INFO, FLYTOBASE_INFO, ADDORDER_INFO, ORDERS_INFO, ALLORDERS_INFO, DELIVER_INFO, DELIVERED_INFO,
 		INTRANSIT_INFO, TICTAC_INFO, ASDLH, HELP_INFO, EXIT_INFO;
+	}
+	
+	public static void handleNotExistShowException(NotExistShowException except) {
+		switch (except.getMessage()) {
+		case "NOSHOW":
+			System.out.println(NO_SHOW_SELECTED);
+			break;
+		case "NOSEASON":
+			System.out.println(UNKNOWN_SEASON);
+			break;
+		}
 	}
 
 	public static void pegaAjuda(Help info) {

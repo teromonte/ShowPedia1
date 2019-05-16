@@ -23,7 +23,7 @@ public interface Show {
 	 * 
 	 * @return a map that has number of seasons as key and a collection of episodes as value
 	 */
-	Map<Integer, List<Episode>> getSeasonsPerEpisode();
+	Map<Integer, List<Episode>> getEpisodesPerSeason();
 	/**
 	 * 
 	 * @return total episodes count.

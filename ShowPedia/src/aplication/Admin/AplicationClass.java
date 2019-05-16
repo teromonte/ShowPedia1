@@ -6,10 +6,14 @@ import java.util.Set;
 
 import exceptions.All.ExistShowException;
 import exceptions.All.NotExistShowException;
+import object.Actor.RealActorClass;
+import object.Episode.EpisodeClass;
+import object.Episode.Episode;
 import object.Show.Show;
 import object.Show.ShowClass;
 
 public class AplicationClass implements Aplication {
+	
 	private static final String REAL = "REAL";
 	private static final String VIRTUAL = "VIRTUAL";
 	private Map<String,Show> shows;
@@ -61,13 +65,15 @@ public class AplicationClass implements Aplication {
 		}
 	}
 
-	public void addEpisode(int seasonNumber, String episodeName) throws NotExistShowException {
+	public String addEpisode(int seasonNumber, String episodeName) throws NotExistShowException {
 		if (!isThereSelectedShow()) {
 			throw new NotExistShowException("NOSHOW");
-		} else if (!currentShow.getSeasonsPerEpisode().containsKey(seasonNumber)) {
+		} else if (!currentShow.getEpisodesPerSeason().containsKey(seasonNumber)) {
 			throw new NotExistShowException("NOSEASON");
 		} else {
 			currentShow.addEpisodeToSeason(seasonNumber, episodeName);
+			return String.format("%s S%d, Ep%d: %s.", currentShow.getShowName(),
+					seasonNumber, currentShow.getEpisodesPerSeason().get(seasonNumber).size() , episodeName);
 		}
 	}
 	private boolean mapContainsThisKey(String showName) {
