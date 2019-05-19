@@ -4,4 +4,10 @@ public class VirtualActorClass extends AbstractActorClass implements VirtualActo
 	public VirtualActorClass(String characterName, String companyName, int feePerSeason, String type) {
 		super(characterName, companyName, feePerSeason, type);
 	}
+
+	@Override
+	public int compareTo(Actor o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -1,10 +1,14 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
+import exceptions.All.CharacterExistException;
 import exceptions.All.CommDontExist;
 import exceptions.All.ExistShowException;
+import exceptions.All.NegativeNumException;
 import exceptions.All.NotExistShowException;
+import exceptions.All.UnknownActorTypeException;
 
 public class Main {
 
@@ -31,6 +35,7 @@ public class Main {
 	private static Commands getCommand(Scanner in) {
 		System.out.print("> ");
 		String name = in.next().toUpperCase();
+		in.nextLine();
 		if (!Commands.isCommValid(name)) {
 			name = in.nextLine().toUpperCase();
 		}
@@ -121,4 +126,23 @@ public class Main {
 		}
 	}
 
+	private static void addCharacter(Scanner in, Aplication a1) throws CharacterExistException, NotExistShowException, UnknownActorTypeException {
+		String type =in.nextLine();
+		String characterName = in.nextLine();
+		String actorName = in.nextLine();
+		int payGrade = 0;
+		in.nextLine();
+		try {
+		payGrade =in.nextInt();
+			System.out.println(a1.addCharacter(characterName, actorName, payGrade, type));
+		}catch(CharacterExistException exception) {
+			
+		}catch (NotExistShowException exception) {
+			
+		}catch (UnknownActorTypeException exception) {
+			
+		}catch (NegativeNumException exception) {
+			
+		}
+	}
 }

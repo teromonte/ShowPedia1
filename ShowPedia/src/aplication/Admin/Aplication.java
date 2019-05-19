@@ -1,7 +1,10 @@
 package aplication.Admin;
 
+import exceptions.All.CharacterExistException;
 import exceptions.All.ExistShowException;
+import exceptions.All.NegativeNumException;
 import exceptions.All.NotExistShowException;
+import exceptions.All.UnknownActorTypeException;
 
 public interface Aplication {
 
@@ -37,4 +40,15 @@ public interface Aplication {
 	 * @throws NotExistShowException If there is no selected show or If the referenced season does not exist
 	 */
 	String addEpisode(int seasonNumber, String episodeName) throws NotExistShowException;
+	/**
+	 * Add a new character to the show. Add a new character to the show.
+	 * @param characterName
+	 * @param actorName
+	 * @param feePerEpisode
+	 * @param type
+	 * @throws CharacterExistException
+	 * @throws NotExistShowException
+	 * @throws UnknownActorTypeException
+	 */
+	String addCharacter(String characterName, String actorName, int feePerEpisode, String type) throws NegativeNumException,CharacterExistException, NotExistShowException, UnknownActorTypeException;
 }
