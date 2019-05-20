@@ -2,11 +2,7 @@ package object.Actor;
 
 public interface Actor extends Comparable<Actor>{
 
-	/**
-	 * 
-	 * @return the character name
-	 */
-	String getCharacterName();
+	
 	/**
 	 * 
 	 * @return the actor name

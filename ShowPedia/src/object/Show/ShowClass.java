@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import character.object.Character;
 import exceptions.All.CharacterExistException;
 import object.Actor.Actor;
 import object.Episode.Episode;
@@ -15,7 +17,7 @@ public class ShowClass implements Show {
 
 	Map<Integer, List<Episode>> episodesPerSeason; // <TEMPORADA,EPISODIOS>
 
-	Map<String, Actor> characters;
+	Map<String, Character> characters;
 
 	private int totalEpisodeCount;
 	private String name;
@@ -32,7 +34,7 @@ public class ShowClass implements Show {
 		episodes = new LinkedList<Episode>(); // e um aray de episodios, logo de cara
 		episodesPerSeason.put(numberOfSesons, episodes); //
 
-		characters = new HashMap<String, Actor>();
+		characters = new HashMap<String, Character>();
 		currentSearchName = null;
 
 	}
@@ -49,7 +51,7 @@ public class ShowClass implements Show {
 		return totalEpisodeCount;
 	}
 
-	public void addCharacter(Actor act) throws CharacterExistException {
+	public void addCharacter(Character act) throws CharacterExistException {
 		String charName = act.getCharacterName();
 		if (mapContainsThisKey(charName)) {
 			throw new CharacterExistException();
@@ -90,5 +92,8 @@ public class ShowClass implements Show {
 			}
 		}
 		return false;
+	}
+	public Character getThisCharacter(String character) {
+		return characters.get(character);
 	}
 }

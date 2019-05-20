@@ -1,17 +1,23 @@
 package aplication.Admin;
 
+import java.util.ArrayList;	
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import character.object.Character;
+import character.object.CharacterClass;
 import exceptions.All.CharacterExistException;
 import exceptions.All.ExistShowException;
 import exceptions.All.NegativeNumException;
+import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
+import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import object.Actor.Actor;
 import object.Actor.RealActorClass;
@@ -25,7 +31,7 @@ public class AplicationClass implements Aplication {
 	private static final String VIRTUAL = "VIRTUAL";
 	private Map<String,Show> shows;
 	private Map<String, LinkedList<Actor>> actorsPerShow; // a show has a collection of actors making the show
-	private Map<String, LinkedList<Show>> showsPerActors; // an has a collection of shows in which he has participated
+	private Map<String, List<Show>> showsPerActors; // an has a collection of shows in which he has participated
 	private SortedSet<Actor> actorsCollection; // the application registry of all the actors
 	private Map<String, Actor>virtualActors; //only virtual actors
 	private Show currentShow;
@@ -93,11 +99,11 @@ public class AplicationClass implements Aplication {
 		}
 		
 	}
-	public String addCharacter(String characterName, String actorName, int feePerEpisode, String type) throws NegativeNumException ,CharacterExistException, NotExistShowException, UnknownActorTypeException{
+	public String addCharacter(String characterName, String actorName, int feePerEpisode, String type) throws 
+	NegativeNumException , NotExistShowException,CharacterExistException, UnknownActorTypeException{
 		if(feePerEpisode<0) {
 			throw new NegativeNumException();
-		}
-		if(isThereSelectedShow()) {
+		}else if(!isThereSelectedShow()) {
 			throw new NotExistShowException();
 		}else if(VIRTUAL.equalsIgnoreCase(type)) {
 			return addVirtualActor(characterName, actorName, feePerEpisode, type);
@@ -106,6 +112,25 @@ public class AplicationClass implements Aplication {
 		}else {
 			throw new UnknownActorTypeException();
 		}
+	}
+	public void addfamilyRelationShip(String father, String son) throws NotExistShowException, SameCharacterException, NonExistentActor{
+		if(!isThereSelectedShow()) {
+			throw new NotExistShowException();
+		}else if(father.equalsIgnoreCase(son)) {
+			throw new SameCharacterException();
+		}else if(currentShow.getThisCharacter(father)==null) {
+			throw new NonExistentActor(father);
+		}else if(currentShow.getThisCharacter(son)==null) {
+			throw new NonExistentActor(son);
+		}else {
+			Actor fatherCharacter = currentShow.getThisCharacter(father);
+			Actor sonCharacter = currentShow.getThisCharacter(son);
+			
+			List<Actor> sons = new ArrayList<Actor>();
+			sons.add(sonCharacter);
+			familyRelation.put(father, sons);
+		}
+		
 	}
 	/**
 	 * adds a virtual caracter to the application and to the current show
@@ -120,7 +145,8 @@ public class AplicationClass implements Aplication {
 			throw new CharacterExistException();
 		}else {
 			Actor act = new VirtualActorClass(characterName, actorName, feePerEpisode, type);
-			currentShow.addCharacter(act); //adds to a show collection of actors
+			Character car = new CharacterClass(characterName);
+			currentShow.addCharacter(car); //adds to a show collection of actors
 			virtualActors.put(characterName,act); ////adds only in virtual actors collection
 			actorsCollection.add(act); // adds to the application of all kinds of actors collection
 			actorsPerShow.get(currentShow.getShowName()).add(act); //adds to a map of showName, charactersCollection
@@ -137,7 +163,8 @@ public class AplicationClass implements Aplication {
 	 */
 	private String addRealActor(String characterName, String actorName, int feePerEpisode, String type) throws CharacterExistException {
 		Actor act = new RealActorClass(characterName, actorName, feePerEpisode, type);
-		currentShow.addCharacter(act); //adds to a show collection of actors
+		Character car = new CharacterClass(characterName);
+		currentShow.addCharacter(car); //adds to a show collection of actors
 		actorsCollection.add(act); // adds to the application of all kinds of actors collection
 		actorsPerShow.get(currentShow.getShowName()).add(act); //adds to a map of showName, charactersCollection
 		addShowToActorCollection(actorName);

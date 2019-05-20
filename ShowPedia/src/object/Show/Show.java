@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import character.object.Character;
 import exceptions.All.CharacterExistException;
 import object.Actor.Actor;
 import object.Episode.Episode;
@@ -46,5 +47,11 @@ public interface Show {
 	 * @param act an which can be a real or a virtual one 
 	 * @throws CharacterExistException
 	 */
-	void addCharacter(Actor act) throws CharacterExistException;
+	void addCharacter(Character act) throws CharacterExistException;
+	/**
+	 * 
+	 * @param character
+	 * @return the character of the given name
+	 */
+	 Character getThisCharacter(String character);
 }

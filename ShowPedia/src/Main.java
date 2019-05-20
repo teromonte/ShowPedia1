@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import aplication.Admin.Aplication;
@@ -19,6 +18,9 @@ public class Main {
 	private static final String GOODBYE = "Bye!";
 	private static final String NO_SHOW_SELECTED = "No show is selected!";
 	private static final String UNKNOWN_SHOW = "Unknown show!";
+	private static final String DUPLICATED_CHARACTER = "Duplicate character names are not allowed!";
+	private static final String INVALID_TYPE = "Unknown actor category!";
+	private static final String NO_SLAVERY = "Slavery is long gone and this is outrageous!";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -67,6 +69,7 @@ public class Main {
 		case ADDEPISODE:
 			addEpisodeToSeason(in, a1);
 			break;
+		case ADDCHARACTER: addCharacter(in, a1);break;
 		default:
 			break;
 		}
@@ -126,23 +129,23 @@ public class Main {
 		}
 	}
 
-	private static void addCharacter(Scanner in, Aplication a1) throws CharacterExistException, NotExistShowException, UnknownActorTypeException {
+	private static void addCharacter(Scanner in, Aplication a1) {
 		String type =in.nextLine();
 		String characterName = in.nextLine();
 		String actorName = in.nextLine();
 		int payGrade = 0;
-		in.nextLine();
 		try {
 		payGrade =in.nextInt();
+		in.nextLine();
 			System.out.println(a1.addCharacter(characterName, actorName, payGrade, type));
-		}catch(CharacterExistException exception) {
-			
-		}catch (NotExistShowException exception) {
-			
+		}catch(NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch (CharacterExistException exception) {
+			System.out.println(DUPLICATED_CHARACTER);
 		}catch (UnknownActorTypeException exception) {
-			
+			System.out.println(INVALID_TYPE);
 		}catch (NegativeNumException exception) {
-			
+			System.out.println(NO_SLAVERY);
 		}
 	}
 }

@@ -3,7 +3,7 @@ import exceptions.All.CommDontExist;
 public enum Commands {
 
 	ADDSHOW("ADDSHOW"), HELP("HELP"), CURRENTSHOW("CURRENTSHOW"), SWITCHTOSHOW("SWITCHTOSHOW"), ADDSEASON("ADDSEASON"),
-	ADDEPISODE("ADDEPISODE"),
+	ADDEPISODE("ADDEPISODE"), ADDCHARACTER("ADDCHARACTER"),
 
 	EXIT("EXIT"), UNKNOWN("Unknown command. Type help to see available commands.");
 
@@ -20,7 +20,7 @@ public enum Commands {
 	public static boolean isCommValid(String command) {
 		if (command.equals("ADDSHOW") || command.equals("HELP") || command.equals("CURRENTSHOW")
 				|| command.equals("SWITCHTOSHOW") || command.equals("ADDSEASON") || command.equals("ADDEPISODE")
-				|| command.equals("EXIT")) {
+				|| command.equals("EXIT") || command.equals("ADDCHARACTER") ) {
 			return true;
 		} else {
 			return false;
