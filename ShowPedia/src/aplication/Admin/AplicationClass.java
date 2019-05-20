@@ -1,7 +1,8 @@
 package aplication.Admin;
 
-import java.util.ArrayList;	
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,12 @@ import java.util.TreeSet;
 import character.object.Character;
 import character.object.CharacterClass;
 import exceptions.All.CharacterExistException;
+import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
+import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import object.Actor.Actor;
@@ -32,14 +35,15 @@ public class AplicationClass implements Aplication {
 	private Map<String,Show> shows;
 	private Map<String, LinkedList<Actor>> actorsPerShow; // a show has a collection of actors making the show
 	private Map<String, List<Show>> showsPerActors; // an has a collection of shows in which he has participated
-	private SortedSet<Actor> actorsCollection; // the application registry of all the actors
+	private List<Actor> actorsCollection; // the application registry of all the actors
 	private Map<String, Actor>virtualActors; //only virtual actors
+	private Map<String, List<Integer>> rolesPerActor;//
 	private Show currentShow;
 	private String currentShowName;
 
 	public AplicationClass() {
 		shows = new HashMap<String, Show>();
-		actorsCollection = new TreeSet<Actor>();
+		actorsCollection = new ArrayList<>();
 		actorsPerShow = new TreeMap<String, LinkedList<Actor>>();
 		virtualActors = new TreeMap<>();
 		showsPerActors = new TreeMap<>();
@@ -113,24 +117,25 @@ public class AplicationClass implements Aplication {
 			throw new UnknownActorTypeException();
 		}
 	}
-	public void addfamilyRelationShip(String father, String son) throws NotExistShowException, SameCharacterException, NonExistentActor{
+	public String addfamilyRelationShip(String father, String son) throws NotExistShowException, SameCharacterException, NonExistentActor, RepeatedRelationShip{
 		if(!isThereSelectedShow()) {
 			throw new NotExistShowException();
 		}else if(father.equalsIgnoreCase(son)) {
 			throw new SameCharacterException();
-		}else if(currentShow.getThisCharacter(father)==null) {
+		}else if(!currentShow.ThereThisCharacter(father)) {
 			throw new NonExistentActor(father);
-		}else if(currentShow.getThisCharacter(son)==null) {
+		}else if(!currentShow.ThereThisCharacter(son)) {
 			throw new NonExistentActor(son);
-		}else {
-			Actor fatherCharacter = currentShow.getThisCharacter(father);
-			Actor sonCharacter = currentShow.getThisCharacter(son);
-			
-			List<Actor> sons = new ArrayList<Actor>();
-			sons.add(sonCharacter);
-			familyRelation.put(father, sons);
+		}else if (currentShow.areTheseTwoRelated(father, son)) {
+			throw new RepeatedRelationShip();
+		}else{
+			Character fatherCharacter = currentShow.getThisCharacter(father);
+			currentShow.getThisCharacter(son).addParents(fatherCharacter);
+			Character sonCharacter = currentShow.getThisCharacter(son);
+			fatherCharacter.addSons(sonCharacter);
+			return String.format("%s has now %d kids. %s has now %d parent(s)", father, 
+					fatherCharacter.getSons().size(),son, sonCharacter.getParents().size());
 		}
-		
 	}
 	/**
 	 * adds a virtual caracter to the application and to the current show
@@ -146,12 +151,18 @@ public class AplicationClass implements Aplication {
 		}else {
 			Actor act = new VirtualActorClass(characterName, actorName, feePerEpisode, type);
 			Character car = new CharacterClass(characterName);
-			currentShow.addCharacter(car); //adds to a show collection of actors
+			currentShow.addCharacter(car); //adds to a show collection of characters
 			virtualActors.put(characterName,act); ////adds only in virtual actors collection
 			actorsCollection.add(act); // adds to the application of all kinds of actors collection
 			actorsPerShow.get(currentShow.getShowName()).add(act); //adds to a map of showName, charactersCollection
 		return String.format("%s is now part of %s. This is a virtual actor", characterName, currentShow.getShowName(), actorName);	
 		}
+	}
+	public Iterator<Character> getCurrentShowCharacters() throws EmptyCollectionException{
+		if(!currentShow.iterateAllCharacters().hasNext()) {
+			throw new EmptyCollectionException();
+		}
+		return currentShow.iterateAllCharacters();
 	}
 	/**
 	 * adds a real actor to the application and to the current show
@@ -162,13 +173,18 @@ public class AplicationClass implements Aplication {
 	 * @throws CharacterExistException
 	 */
 	private String addRealActor(String characterName, String actorName, int feePerEpisode, String type) throws CharacterExistException {
-		Actor act = new RealActorClass(characterName, actorName, feePerEpisode, type);
+		Actor act = null;
+		if(getThisActor(actorName)==null) {
+			act = new RealActorClass(characterName, actorName, feePerEpisode, type);
+		}else {
+			act = getThisActor(actorName);
+		}
 		Character car = new CharacterClass(characterName);
 		currentShow.addCharacter(car); //adds to a show collection of actors
 		actorsCollection.add(act); // adds to the application of all kinds of actors collection
 		actorsPerShow.get(currentShow.getShowName()).add(act); //adds to a map of showName, charactersCollection
 		addShowToActorCollection(actorName);
-		return String.format("%s is now part of %s. This is %s role %d", characterName, currentShow.getShowName(), actorName, showsPerActors.size());
+		return String.format("%s is now part of %s. This is %s role %d", characterName, currentShow.getShowName(), actorName, showsPerActors.get(actorName).size());
 	}
 	/**
 	 * adds a show to an actor collection of shows
@@ -191,5 +207,13 @@ public class AplicationClass implements Aplication {
 			}
 		}
 		return false;
+	}
+	private Actor getThisActor (String actorName) {
+		for (Actor actor : actorsCollection) {
+			if(actorName.equalsIgnoreCase(actor.getActorName())) {
+				return actor;
+			}
+		}
+		return null;
 	}
 }

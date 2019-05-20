@@ -1,12 +1,18 @@
+import java.util.Iterator;
 import java.util.Scanner;
 
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
+import character.object.Character;
 import exceptions.All.CharacterExistException;
 import exceptions.All.CommDontExist;
+import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
 import exceptions.All.NegativeNumException;
+import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
+import exceptions.All.RepeatedRelationShip;
+import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 
 public class Main {
@@ -21,7 +27,10 @@ public class Main {
 	private static final String DUPLICATED_CHARACTER = "Duplicate character names are not allowed!";
 	private static final String INVALID_TYPE = "Unknown actor category!";
 	private static final String NO_SLAVERY = "Slavery is long gone and this is outrageous!";
-
+	private static final String FATHER_SON = "%s cannot be parent and child at the same time!\n";
+	private static final String NON_EXISTENT_CHARACTER = "Who is %s\n";
+	private static final String REPEATED_RELATIONSHIP = "What else is new? We already know about those two...";
+	
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
 		Scanner in = new Scanner(System.in);
@@ -70,6 +79,8 @@ public class Main {
 			addEpisodeToSeason(in, a1);
 			break;
 		case ADDCHARACTER: addCharacter(in, a1);break;
+		case ADDRELATIONSHIP: addRelationShip(in, a1);break;
+		case ALL: allCharactersAndParents(a1);break;
 		default:
 			break;
 		}
@@ -147,5 +158,33 @@ public class Main {
 		}catch (NegativeNumException exception) {
 			System.out.println(NO_SLAVERY);
 		}
+	}
+	private static void addRelationShip(Scanner in, Aplication a1) {
+		String father = in.nextLine();
+		String son = in.nextLine();
+		try {
+			System.out.println(a1.addfamilyRelationShip(father, son));
+		}catch (NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch (SameCharacterException exception) {
+			System.out.printf(FATHER_SON,father);
+		}catch (NonExistentActor exception) {
+			System.out.printf(NON_EXISTENT_CHARACTER,exception.getMessage());
+		}catch (RepeatedRelationShip exception) {
+			System.out.println(REPEATED_RELATIONSHIP);
+		}
+	}
+	private static void allCharactersAndParents(Aplication a1) {
+		try {
+			System.out.println("all");
+			Iterator<Character> it = a1.getCurrentShowCharacters();
+			while(it.hasNext()) {
+				Character cc = it.next();
+				System.out.printf("Character Name: %s| number of parents: %d| number of sons: %d \n",cc.getCharacterName(),cc.getParents().size(),cc.getSons().size());
+			}
+		}catch (EmptyCollectionException exception) {
+			System.out.println("empty");
+		}
+		
 	}
 }

@@ -1,6 +1,6 @@
 package character.object;
-
-import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
 
 public interface Character {
 
@@ -23,10 +23,27 @@ public interface Character {
 	 * 
 	 * @return map of parents
 	 */
-	public Map<String, Character> getParents();
+	public List<Character> getParents();
 	/**
 	 * 
 	 * @return a map of sons
 	 */
-	public Map<String, Character> getSons();
+	public List<Character> getSons();
+	
+	Iterator<Character> iterateParents();
+	
+	public Iterator<Character> iterateSons();
+	
+	/**
+	  * return true if "son" is my son
+	  * @param son
+	  * @return
+	  */
+	 boolean isMySon(String son);
+	 /**
+	  * 
+	  * @param father
+	  * @return true if "father" is my father
+	  */
+	 boolean isMyParent(String father);
 }
