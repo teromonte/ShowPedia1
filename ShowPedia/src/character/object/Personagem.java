@@ -3,7 +3,9 @@ package character.object;
 import java.util.Iterator;
 import java.util.List;
 
+import exceptions.All.RepeatedRelationShip;
 import object.Event.Event;
+import object.Quote.Quote;
 
 public interface Personagem {
 
@@ -25,7 +27,11 @@ public interface Personagem {
 	 * @param parent
 	 */
 	public void addParents(Personagem parent);
-
+	/**
+	 * adds a romantic partner
+	 * @param partner
+	 */
+	void addRomanticPartner(Personagem partner);
 	/**
 	 * 
 	 * @return map of parents
@@ -37,7 +43,12 @@ public interface Personagem {
 	 * @return a map of sons
 	 */
 	public List<Personagem> getSons();
-
+	/**
+	 * 
+	 * @return
+	 */
+	List<Personagem> getLovers();
+	
 	Iterator<Personagem> iterateParents();
 
 	public Iterator<Personagem> iterateSons();
@@ -56,6 +67,12 @@ public interface Personagem {
 	 * @return true if "father" is my father
 	 */
 	boolean isMyParent(String father);
+	/**
+	 * 
+	 * @param characterName
+	 * @return true if characterName is is in a romantic relationship with this character
+	 */
+	boolean isMyRomanticPartner(String characterName);
 
 	/**
 	 * 
@@ -63,4 +80,11 @@ public interface Personagem {
 	 * @param event
 	 */
 	void addEvent(Event event);
+	/**
+	 * 
+	 * @return this character quotes collection
+	 */
+	List<Quote> getMyQuotes();
+	
+	
 }

@@ -34,6 +34,7 @@ public class Main {
 	private static final String REPEATED_RELATIONSHIP = "What else is new? We already know about those two...";
 	private static final String NO_SEASON = "%s does not have season %d!\n";
 	private static final String NO_EPISODE = "%s S%d does not have episode %d!";
+	private static final String SORRY_NO_SELF_DATING = "%s cannot be in a single person romantic relationship!\n";
 	
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -86,6 +87,7 @@ public class Main {
 		case ADDRELATIONSHIP: addRelationShip(in, a1);break;
 		case ALL: allCharactersAndParents(a1);break;
 		case ADDEVENT: addEvent(in, a1);break;
+		case ADDROMANCE: addRomanticRelationShip(in, a1);break;
 		default:
 			break;
 		}
@@ -214,6 +216,21 @@ public class Main {
 			System.out.printf(NO_EPISODE,a1.getCurrentShowObject().getShowName(),seasonNum,episodeNum);
 		}catch (NonExistentActor exception) {
 			System.out.printf(NON_EXISTENT_CHARACTER,exception.getMessage());
+		}
+	}
+	private static void addRomanticRelationShip(Scanner in, Aplication a1) {
+		String character1 = in.nextLine();
+		String character2 = in.nextLine();
+		try {
+			System.out.println(a1.addRomanticRelationShip(character1, character2));
+		} catch(NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		} catch(SameCharacterException exception) {
+			System.out.printf(SORRY_NO_SELF_DATING,character1);
+		} catch (NonExistentActor exception) {
+			System.out.printf(NON_EXISTENT_CHARACTER,exception.getMessage());
+		} catch (RepeatedRelationShip exception) {
+			System.out.println(REPEATED_RELATIONSHIP);
 		}
 	}
 }

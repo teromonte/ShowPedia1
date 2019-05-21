@@ -80,6 +80,13 @@ public interface Show {
 	 boolean areTheseTwoRelated(String personName1, String personName2);
 	 /**
 	  * 
+	  * @param character1
+	  * @param character2
+	  * @return true if character1 and character2 are in a romantic relationship
+	  */
+	 boolean areTheseTwoRomantic(String character1, String character2);
+	 /**
+	  * 
 	  * @return the event collection
 	  */
 	 List<Event> getEvents();

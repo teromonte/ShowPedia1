@@ -85,6 +85,19 @@ public interface Aplication {
 	 */
 	String addfamilyRelationShip(String father, String son)
 			throws NotExistShowException, SameCharacterException, NonExistentActor,RepeatedRelationShip;
+	/**
+	 * Add a romantic relationship between characters.
+	 * In a romantic relationship, we add
+	 * two elements, establishing a relationship among them.
+	 * @param character1
+	 * @param character2
+	 * @throws NotExistShowException If there is no selected show;
+	 * @throws SameCharacterException It is not possible to establish a relationship with the same character;
+	 * @throws NonExistentActor If at least one of the characters does not exist;
+	 * @throws RepeatedRelationShip If the relationship is repeated.
+	 */
+	String addRomanticRelationShip(String character1, String character2) throws NotExistShowException, SameCharacterException, 
+	NonExistentActor,RepeatedRelationShip;
 
 	Iterator<Personagem> getCurrentShowCharacters() throws EmptyCollectionException;
 	/**

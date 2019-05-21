@@ -84,6 +84,9 @@ public class ShowClass implements Show {
 	public boolean areTheseTwoRelated(String personName1, String personName2) {
 		return getThisCharacter(personName1).isMyParent(personName2) || getThisCharacter(personName1).isMySon(personName2);
 	}
+	public boolean areTheseTwoRomantic(String character1, String character2) {
+		return getThisCharacter(character1).isMyRomanticPartner(character2);	
+	}
 	public boolean ThereThisCharacter(String player) {
 		return getThisCharacter(player)!=null;
 	}
