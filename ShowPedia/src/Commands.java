@@ -2,8 +2,9 @@ import exceptions.All.CommDontExist;
 
 public enum Commands {
 
+	//depois remover o comando "ALL"
 	ADDSHOW("ADDSHOW"), HELP("HELP"), CURRENTSHOW("CURRENTSHOW"), SWITCHTOSHOW("SWITCHTOSHOW"), ADDSEASON("ADDSEASON"),
-	ADDEPISODE("ADDEPISODE"), ADDCHARACTER("ADDCHARACTER"), ADDRELATIONSHIP("ADDRELATIONSHIP"), ALL("ALL"),
+	ADDEPISODE("ADDEPISODE"), ADDCHARACTER("ADDCHARACTER"), ADDRELATIONSHIP("ADDRELATIONSHIP"), ALL("ALL"), ADDEVENT("ADDEVENT"),
 
 	EXIT("EXIT"), UNKNOWN("Unknown command. Type help to see available commands.");
 
@@ -20,7 +21,8 @@ public enum Commands {
 	public static boolean isCommValid(String command) {
 		if (command.equals("ADDSHOW") || command.equals("HELP") || command.equals("CURRENTSHOW")
 				|| command.equals("SWITCHTOSHOW") || command.equals("ADDSEASON") || command.equals("ADDEPISODE")
-				|| command.equals("EXIT") || command.equals("ADDCHARACTER") || command.equals("ALL")||command.equals("ADDRELATIONSHIP") ) {
+				|| command.equals("EXIT") || command.equals("ADDCHARACTER") || command.equals("ALL")||
+				command.equals("ADDRELATIONSHIP") ||command.equals("ADDEVENT")                            ) {
 			return true;
 		} else {
 			return false;

@@ -1,19 +1,18 @@
 package object.Actor;
 
-import character.object.Character;
-import character.object.CharacterClass;
+import character.object.Personagem;
+import character.object.PersonagemClass;
 
 public class VirtualActorClass extends AbstractActorClass implements VirtualActor {
-	
-	
-	
-	private Character virtual;
+
+	private Personagem virtual;
+
 	public VirtualActorClass(String characterName, String companyName, int feePerSeason, String type) {
 		super(companyName, feePerSeason, type);
-		virtual = new CharacterClass(characterName);
+		virtual = new PersonagemClass(characterName);
 	}
 
-	public Character getCharacter() {
+	public Personagem getCharacter() {
 		return virtual;
 	}
 	@Override

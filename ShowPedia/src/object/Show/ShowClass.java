@@ -1,6 +1,7 @@
 package object.Show;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,22 +10,25 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import character.object.Character;
+import character.object.Personagem;
 import exceptions.All.CharacterExistException;
 
 import object.Episode.Episode;
 import object.Episode.EpisodeClass;
+import object.Event.Event;
 
 public class ShowClass implements Show {
-
+	
 	Map<Integer, List<Episode>> episodesPerSeason; // <TEMPORADA,EPISODIOS>
-	Map<String, Character> characters; // a collection of characters featuring the show
+	Map<String, Personagem> characters; // a collection of characters featuring the show
+	List<Event> eventsList;
 
 	private int totalEpisodeCount;
 	private String name;
 	private int numberOfSesons;
 	private List<Episode> episodes;
 	private String currentSearchName;
+	
 	public ShowClass(String name) {
 		this.name = name;
 		totalEpisodeCount = 0;
@@ -33,8 +37,9 @@ public class ShowClass implements Show {
 		numberOfSesons = 1; // Um show já comeca com uma temporada pronta
 		episodes = new LinkedList<Episode>(); // e um aray de episodios, logo de cara
 		episodesPerSeason.put(numberOfSesons, episodes); //
+		characters = new TreeMap<String, Personagem>();
+		eventsList = new ArrayList<Event>();
 		currentSearchName = "";
-		characters = new TreeMap<String, Character>();
 
 	}
 
@@ -50,7 +55,7 @@ public class ShowClass implements Show {
 		return totalEpisodeCount;
 	}
 
-	public void addCharacter(Character act) throws CharacterExistException {
+	public void addCharacter(Personagem act) throws CharacterExistException {
 		String charName = act.getCharacterName();
 		if (mapContainsThisKey(charName)!=null) {
 			throw new CharacterExistException();
@@ -82,18 +87,24 @@ public class ShowClass implements Show {
 	public boolean ThereThisCharacter(String player) {
 		return getThisCharacter(player)!=null;
 	}
-	public Character getThisCharacter(String character) {
-		Iterator<Character> it = characters.values().iterator();
+	public Personagem getThisCharacter(String character) {
+		Iterator<Personagem> it = characters.values().iterator();
 		while(it.hasNext()) {
-			Character u = it.next();
+			Personagem u = it.next();
 			if(u.getCharacterName().equalsIgnoreCase(character)) {
 				return u;
 			}
 		}
 		return null;
 	}
-	public Iterator<Character> iterateAllCharacters(){
+	public Iterator<Personagem> iterateAllCharacters(){
 		return characters.values().iterator();
+	}
+	public List<Episode> getThisSeason(int seasonNum){
+		return episodesPerSeason.get(seasonNum);
+	}
+	public List<Event> getEvents(){
+		return eventsList;
 	}
 	/**
 	 * looks for a String key in the map, ignoring string's cases

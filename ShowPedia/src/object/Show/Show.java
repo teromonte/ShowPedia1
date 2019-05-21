@@ -6,9 +6,10 @@ import java.util.List;
 
 import java.util.Map;
 
-import character.object.Character;
+import character.object.Personagem;
 import exceptions.All.CharacterExistException;
 import object.Episode.Episode;
+import object.Event.Event;
 
 public interface Show {
 
@@ -44,19 +45,25 @@ public interface Show {
 	 */
 	void addEpisodeToSeason(int season, String episodeName);
 	/**
+	 * 
+	 * @param seasonNum
+	 * @return the given season
+	 */
+	List<Episode> getThisSeason(int seasonNum);
+	/**
 	 * Add a new character to the show.
 	 * @param act an which can be a real or a virtual one 
 	 * @throws CharacterExistException
 	 */
-	void addCharacter(Character act) throws CharacterExistException;
+	void addCharacter(Personagem act) throws CharacterExistException;
 	/**
 	 * 
 	 * @param character
 	 * @return the character of the given name
 	 */
-	 Character getThisCharacter(String character);
+	 Personagem getThisCharacter(String character);
 	 
-	 Iterator<Character> iterateAllCharacters();
+	 Iterator<Personagem> iterateAllCharacters();
 	 /**
 	  * returns true if the show has a character with the name player
 	  * @param player
@@ -71,4 +78,9 @@ public interface Show {
 	  * @return if there is a family relationship between personName1 and personName2
 	  */
 	 boolean areTheseTwoRelated(String personName1, String personName2);
+	 /**
+	  * 
+	  * @return the event collection
+	  */
+	 List<Event> getEvents();
 }

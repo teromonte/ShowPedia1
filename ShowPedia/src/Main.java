@@ -3,11 +3,13 @@ import java.util.Scanner;
 
 import aplication.Admin.Aplication;
 import aplication.Admin.AplicationClass;
-import character.object.Character;
+import character.object.Personagem;
 import exceptions.All.CharacterExistException;
 import exceptions.All.CommDontExist;
 import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
+import exceptions.All.InexistentEpisodeNumber;
+import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
@@ -30,6 +32,8 @@ public class Main {
 	private static final String FATHER_SON = "%s cannot be parent and child at the same time!\n";
 	private static final String NON_EXISTENT_CHARACTER = "Who is %s\n";
 	private static final String REPEATED_RELATIONSHIP = "What else is new? We already know about those two...";
+	private static final String NO_SEASON = "%s does not have season %d!\n";
+	private static final String NO_EPISODE = "%s S%d does not have episode %d!";
 	
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -81,6 +85,7 @@ public class Main {
 		case ADDCHARACTER: addCharacter(in, a1);break;
 		case ADDRELATIONSHIP: addRelationShip(in, a1);break;
 		case ALL: allCharactersAndParents(a1);break;
+		case ADDEVENT: addEvent(in, a1);break;
 		default:
 			break;
 		}
@@ -177,14 +182,38 @@ public class Main {
 	private static void allCharactersAndParents(Aplication a1) {
 		try {
 			System.out.println("all");
-			Iterator<Character> it = a1.getCurrentShowCharacters();
+			Iterator<Personagem> it = a1.getCurrentShowCharacters();
 			while(it.hasNext()) {
-				Character cc = it.next();
+				Personagem cc = it.next();
 				System.out.printf("Character Name: %s| number of parents: %d| number of sons: %d \n",cc.getCharacterName(),cc.getParents().size(),cc.getSons().size());
 			}
 		}catch (EmptyCollectionException exception) {
 			System.out.println("empty");
 		}
 		
+	}
+	private static void addEvent(Scanner in, Aplication a1) {
+		String eventName = in.nextLine();
+		int seasonNum = in.nextInt();
+		int episodeNum = in.nextInt();
+		int nrPlayersIn = in.nextInt();
+		in.nextLine();
+		int i=0;
+		String playersNames [] = new String[nrPlayersIn];
+		while(i<nrPlayersIn) {
+			String playerName = in.nextLine();
+			playersNames[i++]=playerName;
+		}
+		try {
+			a1.addEvent(eventName, seasonNum, episodeNum, nrPlayersIn, playersNames);
+		}catch(NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch(InexistentSeasonException exception) {
+			System.out.printf(NO_SEASON,a1.getCurrentShowObject().getShowName(),seasonNum);
+		}catch (InexistentEpisodeNumber exception) {
+			System.out.printf(NO_EPISODE,a1.getCurrentShowObject().getShowName(),seasonNum,episodeNum);
+		}catch (NonExistentActor exception) {
+			System.out.printf(NON_EXISTENT_CHARACTER,exception.getMessage());
+		}
 	}
 }

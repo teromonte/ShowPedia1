@@ -2,16 +2,19 @@ package aplication.Admin;
 
 import java.util.Iterator;
 
-import character.object.Character;
+import character.object.Personagem;
 import exceptions.All.CharacterExistException;
 import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
+import exceptions.All.InexistentEpisodeNumber;
+import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
+import object.Show.Show;
 
 public interface Aplication {
 
@@ -83,5 +86,20 @@ public interface Aplication {
 	String addfamilyRelationShip(String father, String son)
 			throws NotExistShowException, SameCharacterException, NonExistentActor,RepeatedRelationShip;
 
-	Iterator<Character> getCurrentShowCharacters() throws EmptyCollectionException;
+	Iterator<Personagem> getCurrentShowCharacters() throws EmptyCollectionException;
+	/**
+	 * Add a signicant event involving at least one character.The command receives
+	 * the following parameters
+	 * @param eventName
+	 * @param seasonNum
+	 * @param episodeNum
+	 * @param nrPlayersIn
+	 * @param playersNames
+	 * @throws NotExistShowException
+	 * @throws InexistentSeasonException
+	 * @throws NonExistentActor
+	 */
+	void addEvent(String eventName, int seasonNum, int episodeNum, int nrPlayersIn, String [] playersNames) 
+			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor ;
+	Show getCurrentShowObject();
 }
