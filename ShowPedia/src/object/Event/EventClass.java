@@ -1,5 +1,6 @@
 package object.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import character.object.Personagem;
@@ -14,6 +15,7 @@ public class EventClass implements Event {
 	
 
 	public EventClass(String eventName, int seasonNum, int episodeNum, String showName) {
+		characters =  new ArrayList<>();
 		this.eventName = eventName;
 		this.seasonNum = seasonNum;
 		this.episodeNum = episodeNum;

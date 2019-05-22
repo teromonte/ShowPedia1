@@ -14,6 +14,7 @@ import exceptions.All.NotExistShowException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
+import object.Episode.Episode;
 import object.Show.Show;
 
 public interface Aplication {
@@ -114,5 +115,34 @@ public interface Aplication {
 	 */
 	void addEvent(String eventName, int seasonNum, int episodeNum, int nrPlayersIn, String [] playersNames) 
 			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor ;
+	/**
+	 * Add a new quote to a character.
+	 * The command receives the information the following information and adds that quote to tha character
+	 * @param season
+	 * @param episode
+	 * @param character
+	 * @param quote
+	 * @throws NotExistShowException
+	 * @throws InexistentSeasonException
+	 * @throws InexistentEpisodeNumber
+	 * @throws NonExistentActor
+	 */
+	void addQuote(int season, int episode, String character, String quote) throws NotExistShowException, 
+	InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor;
+	
 	Show getCurrentShowObject();
+	/**checks the error that might interrupt the command seasonoutline
+	 * 
+	 * @param seasonStart
+	 * @param seasonEnd
+	 * @throws NotExistShowException
+	 * @throws InexistentSeasonException
+	 */
+	void canIterateEvents (int seasonStart, int seasonEnd)throws NotExistShowException, InexistentSeasonException;
+	 /**
+	  *
+	  * @param season
+	  * @return an iterator of episodes of a season
+	  */
+	public Iterator<Episode> getEpisodes(int season);
 }

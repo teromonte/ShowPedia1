@@ -87,7 +87,16 @@ public interface Show {
 	 boolean areTheseTwoRomantic(String character1, String character2);
 	 /**
 	  * 
-	  * @return the event collection
+	  * @param season
+	  * @param episode
+	  * @param event
 	  */
-	 List<Event> getEvents();
+	 void addEvent(int season, int episode, Event event);
+	 /**
+	  * lists all events of a the episode of a season
+	  * @param season
+	  * @param episode
+	  * @return  
+	  */
+	 Iterator<Episode> getEpisodes(int season);
 }

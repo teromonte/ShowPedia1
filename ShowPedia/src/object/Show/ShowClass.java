@@ -21,25 +21,21 @@ public class ShowClass implements Show {
 	
 	Map<Integer, List<Episode>> episodesPerSeason; // <TEMPORADA,EPISODIOS>
 	Map<String, Personagem> characters; // a collection of characters featuring the show
-	List<Event> eventsList;
 
 	private int totalEpisodeCount;
 	private String name;
 	private int numberOfSesons;
 	private List<Episode> episodes;
-	private String currentSearchName;
 	
 	public ShowClass(String name) {
 		this.name = name;
 		totalEpisodeCount = 0;
 
 		episodesPerSeason = new HashMap<Integer, List<Episode>>(); //
-		numberOfSesons = 1; // Um show já comeca com uma temporada pronta
-		episodes = new LinkedList<Episode>(); // e um aray de episodios, logo de cara
+		numberOfSesons = 1; // Um show ja comeca com uma temporada pronta
+		episodes = new ArrayList<Episode>(); // e um aray de episodios, logo de cara
 		episodesPerSeason.put(numberOfSesons, episodes); //
 		characters = new TreeMap<String, Personagem>();
-		eventsList = new ArrayList<Event>();
-		currentSearchName = "";
 
 	}
 
@@ -75,10 +71,9 @@ public class ShowClass implements Show {
 	}
 
 	public void addEpisodeToSeason(int season, String episodeName) {
-		Episode p = new EpisodeClass(episodeName);
-		episodesPerSeason.get(season).add(p);
 		totalEpisodeCount++;
-
+		Episode p = new EpisodeClass(episodeName,totalEpisodeCount);
+		episodesPerSeason.get(season).add(p);
 	}
 	/*Considering that the relation is transitive mutual*/
 	public boolean areTheseTwoRelated(String personName1, String personName2) {
@@ -106,8 +101,13 @@ public class ShowClass implements Show {
 	public List<Episode> getThisSeason(int seasonNum){
 		return episodesPerSeason.get(seasonNum);
 	}
-	public List<Event> getEvents(){
-		return eventsList;
+	public void addEvent(int season, int episode, Event event) {
+	 List<Episode> p=	episodesPerSeason.get(season);
+	 Episode e = p.get(episode-1);
+	 e.addEvent(event);
+	}
+	public Iterator<Episode> getEpisodes(int season){
+		return episodesPerSeason.get(season).iterator();
 	}
 	/**
 	 * looks for a String key in the map, ignoring string's cases
