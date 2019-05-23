@@ -1,12 +1,8 @@
 package object.Actor;
 
-public interface Actor {
+public interface Actor extends Comparable<Actor>{
 
-	/**
-	 * 
-	 * @return the character name
-	 */
-	String getCharacterName();
+	
 	/**
 	 * 
 	 * @return the actor name
@@ -17,4 +13,6 @@ public interface Actor {
 	 * @return feePerEpisode if it is a real actor, else fee per season
 	 */
 	public int getFeePerEpisode();
+	
+	String getType();
 }
