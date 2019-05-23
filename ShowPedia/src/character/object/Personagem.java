@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import exceptions.All.RepeatedRelationShip;
+import object.Episode.Episode;
 import object.Event.Event;
 import object.Quote.Quote;
 
@@ -48,6 +49,13 @@ public interface Personagem {
 	 * @return
 	 */
 	List<Personagem> getLovers();
+	/**
+	 * 
+	 * @return an array of siblings
+	 */
+	List<Personagem> getSiblings();
+
+	 List<Episode> getMyEpisodes();
 	
 	Iterator<Personagem> iterateParents();
 
@@ -85,6 +93,15 @@ public interface Personagem {
 	 * @return this character quotes collection
 	 */
 	List<Quote> getMyQuotes();
+	/**
+	 * 
+	 * @return
+	 */
+	Iterator<Personagem> iterateSiblings();
+	
+	Iterator<Personagem> iterateRomanticPartners();
+	
+	Iterator<Event>iterateEvents();
 	
 	
 }

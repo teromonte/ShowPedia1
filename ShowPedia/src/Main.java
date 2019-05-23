@@ -305,4 +305,41 @@ public class Main {
 			System.out.println(INVALID_SEASON_NUMB);
 		}
 	}
+	private static void characterResume(Scanner in, Aplication a1) {
+		String characterName = in.nextLine();
+		try {
+		Personagem pp=a1.characterResume(characterName);
+		System.out.print("Parents: ");
+		fatherNames(pp.iterateParents());
+		System.out.print("Kids: ");
+		fatherNames(pp.iterateSons());
+		System.out.print("Siblings: ");
+		fatherNames(pp.iterateSiblings());
+		System.out.print("Romantic relationships: ");
+		fatherNames(pp.iterateRomanticPartners());
+		
+		Iterator<Event>events = pp.iterateEvents();
+		while(events.hasNext()) {
+			Event ev = events.next();
+		}
+		System.out.print("S%d Ep%d: %s");
+		}catch(NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch (NonExistentActor exception) {
+			System.out.printf(NON_EXISTENT_CHARACTER,characterName);
+		}
+	}
+	private static void fatherNames(Iterator<Personagem> pers) {
+		if(!pers.hasNext()) {
+			System.out.println("None.");
+		}else {
+			while(pers.hasNext()) {
+				System.out.print(pers.next().getCharacterName());
+				if(pers.hasNext()) {
+				System.out.print(", ");
+				}
+			}
+			System.out.println();
+		}
+	}
 }

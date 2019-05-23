@@ -2,10 +2,11 @@ package character.object;
 
 import java.util.ArrayList;
 
+
 import java.util.Iterator;
 import java.util.List;
 
-import exceptions.All.RepeatedRelationShip;
+import object.Episode.Episode;
 import object.Event.Event;
 import object.Quote.Quote;
 
@@ -14,6 +15,8 @@ public class PersonagemClass implements Personagem {
 	private List<Personagem> sonsCollection;
 	private List<Personagem> parentsCollection;
 	private List<Personagem> romanticPartners;
+	private List<Personagem> siblings;
+	private List<Episode> myEpisodes;
 	private List<Event> myEvents;
 	private List<Quote> myQuotes;
 	private String actorName;
@@ -23,6 +26,8 @@ public class PersonagemClass implements Personagem {
 		sonsCollection = new ArrayList<>();
 		parentsCollection = new ArrayList<>();
 		romanticPartners = new ArrayList<>();
+		myEpisodes = new ArrayList<>();
+		siblings = new ArrayList<>();
 		myEvents = new ArrayList<Event>();
 		myQuotes = new ArrayList<>();
 	}
@@ -34,8 +39,17 @@ public class PersonagemClass implements Personagem {
 	public void addSons(Personagem car) {
 		sonsCollection.add(car);
 	}
-
+	private void addSibling(Personagem par) {
+		Iterator<Personagem> pp = par.iterateSons();
+		while(pp.hasNext()) {
+		Personagem ss = pp.next();
+		if(!siblings.contains(ss)) {
+			siblings.add(ss);
+		}
+		}
+	}
 	public void addParents(Personagem parent) {
+		addSibling(parent);
 		parentsCollection.add(parent);
 	}
 	public void addRomanticPartner(Personagem partner){
@@ -52,9 +66,14 @@ public class PersonagemClass implements Personagem {
 	public List<Personagem> getLovers(){
 		return romanticPartners;
 	}
-	
+	public List<Personagem> getSiblings(){
+		return siblings;
+	}
 	public List<Quote> getMyQuotes(){
 		return myQuotes;
+	}
+	public List<Episode> getMyEpisodes(){
+		return myEpisodes;
 	}
 	public Iterator<Personagem> iterateParents() {
 		return getParents().iterator();
@@ -63,9 +82,14 @@ public class PersonagemClass implements Personagem {
 	public Iterator<Personagem> iterateSons() {
 		return getSons().iterator();
 	}
-
+	public Iterator<Personagem> iterateSiblings(){
+		return siblings.iterator();
+	}
 	public Iterator<Personagem> iterateRomanticPartners(){
 		return romanticPartners.iterator();
+	}
+	public Iterator<Event>iterateEvents(){
+		return myEvents.iterator();
 	}
 	public boolean isMyRomanticPartner(String characterName) {
 		return isRelative(iterateRomanticPartners(),characterName);

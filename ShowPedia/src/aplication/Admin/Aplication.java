@@ -145,4 +145,12 @@ public interface Aplication {
 	  * @return an iterator of episodes of a season
 	  */
 	public Iterator<Episode> getEpisodes(int season);
+	/**
+	 * 
+	 * @param characterName
+	 * @return the character object of the given name
+	 * @throws NotExistShowException If there is no selected show,
+	 * @throws NonExistentActor If the character does not exist,
+	 */
+	Personagem characterResume(String characterName) throws NotExistShowException, NonExistentActor;
 }

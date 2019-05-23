@@ -92,6 +92,9 @@ public interface Show {
 	  * @param event
 	  */
 	 void addEvent(int season, int episode, Event event);
+	 
+	 void addEpisodeToACharacter(String character, int season, int episode);
+	 
 	 /**
 	  * lists all events of a the episode of a season
 	  * @param season

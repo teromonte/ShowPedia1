@@ -8,12 +8,16 @@ import object.Event.Event;
 
 public class EpisodeClass implements Episode {
 	private List<Event> eventsList;
+	private List<Episode>myEpisodes;
 	private String name;
 	private int episodeNum; 
-	public EpisodeClass(String name, int episodeNum) {
+	private int season;
+	public EpisodeClass(String name, int episodeNum, int season) {
 		eventsList = new ArrayList<Event>();
 		this.name = name;
 		this.episodeNum=episodeNum;
+		this.season = season;
+		myEpisodes = new ArrayList<>();
 	}
 	
 	public List<Event> getEvents(){
@@ -30,6 +34,9 @@ public class EpisodeClass implements Episode {
 	}
 	public String getEpisodeName() {
 		return name;
+	}
+	public List<Episode> getMyEpisodes(){
+		return myEpisodes;
 	}
 	
 	

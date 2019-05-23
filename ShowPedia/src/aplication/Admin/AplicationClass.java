@@ -254,6 +254,7 @@ public class AplicationClass implements Aplication {
 				Personagem cc = currentShow.getThisCharacter(personagem);
 				event.addCharacter(cc);
 				cc.addEvent(event);
+				currentShow.addEpisodeToACharacter(personagem, seasonNum, episodeNum); ///////////////////////////////////////
 			}
 			currentShow.addEvent(seasonNum, episodeNum, event);
 	}
@@ -275,21 +276,6 @@ public class AplicationClass implements Aplication {
 		return currentShow.iterateAllCharacters();
 	}
 
-	
-
-	/**
-	 * adds a show to an actor collection of shows
-	 * 
-	 * @param actorName
-	 */
-	private void addShowToActorCollection(String actorName) {
-		if (showsPerActors.containsKey(actorName)) {
-			showsPerActors.get(actorName).add(currentShow);
-		} else {
-			LinkedList<Show> myShows = new LinkedList<>();
-			showsPerActors.put(actorName, myShows);
-		}
-	}
 	public void addQuote(int season, int episode, String character, String quote) throws NotExistShowException, 
 	InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor {
 		if (!isThereSelectedShow()) {
@@ -305,6 +291,29 @@ public class AplicationClass implements Aplication {
 			quotesPerCharacters.get(hasThisCharacterAQuote(character)).add(qq);
 		}
 	}
+	public Personagem characterResume(String characterName) throws NotExistShowException, NonExistentActor{
+		if(!isThereSelectedShow()) {
+			throw new NotExistShowException();
+		}else if(currentShow.ThereThisCharacter(characterName)) {
+			throw new NonExistentActor();
+		}else {
+			return currentShow.getThisCharacter(characterName);
+		}
+	}
+	/**
+	 * adds a show to an actor collection of shows
+	 * 
+	 * @param actorName
+	 */
+	private void addShowToActorCollection(String actorName) {
+		if (showsPerActors.containsKey(actorName)) {
+			showsPerActors.get(actorName).add(currentShow);
+		} else {
+			LinkedList<Show> myShows = new LinkedList<>();
+			showsPerActors.put(actorName, myShows);
+		}
+	}
+	
 	private boolean mapContainsThisKey(String showName) {
 		Set<String> c = shows.keySet();
 		for (String string : c) {

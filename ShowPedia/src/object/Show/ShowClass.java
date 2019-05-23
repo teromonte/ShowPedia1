@@ -72,7 +72,7 @@ public class ShowClass implements Show {
 
 	public void addEpisodeToSeason(int season, String episodeName) {
 		totalEpisodeCount++;
-		Episode p = new EpisodeClass(episodeName,totalEpisodeCount);
+		Episode p = new EpisodeClass(episodeName,totalEpisodeCount, season);
 		episodesPerSeason.get(season).add(p);
 	}
 	/*Considering that the relation is transitive mutual*/
@@ -105,6 +105,11 @@ public class ShowClass implements Show {
 	 List<Episode> p=	episodesPerSeason.get(season);
 	 Episode e = p.get(episode-1);
 	 e.addEvent(event);
+	}
+	public void addEpisodeToACharacter(String character, int season, int episode) {
+		List<Episode> p=episodesPerSeason.get(season);
+		 Episode e = p.get(episode-1);
+		getThisCharacter(character).getMyEpisodes().add(e);
 	}
 	public Iterator<Episode> getEpisodes(int season){
 		return episodesPerSeason.get(season).iterator();
