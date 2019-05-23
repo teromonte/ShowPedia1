@@ -101,18 +101,21 @@ public class ShowClass implements Show {
 	public List<Episode> getThisSeason(int seasonNum){
 		return episodesPerSeason.get(seasonNum);
 	}
-	public void addEvent(int season, int episode, Event event) {
+	public void addEvent(int season, int episode, Event event, String [] playersNames) {
 	 List<Episode> p=	episodesPerSeason.get(season);
 	 Episode e = p.get(episode-1);
-	 e.addEvent(event);
+	 e.addEvent(event, playersNames);
 	}
-	public void addEpisodeToACharacter(String character, int season, int episode) {
-		List<Episode> p=episodesPerSeason.get(season);
-		 Episode e = p.get(episode-1);
-		getThisCharacter(character).getMyEpisodes().add(e);
-	}
+//	public void addEpisodeToACharacter(String character, int season, int episode) {
+//		List<Episode> p=episodesPerSeason.get(season);
+//		 Episode e = p.get(episode-1);
+//		getThisCharacter(character).getMyEpisodes().add(e);
+//	}
 	public Iterator<Episode> getEpisodes(int season){
 		return episodesPerSeason.get(season).iterator();
+	}
+	public Iterator<Integer> iterateSeasons(){
+		return episodesPerSeason.keySet().iterator();
 	}
 	/**
 	 * looks for a String key in the map, ignoring string's cases

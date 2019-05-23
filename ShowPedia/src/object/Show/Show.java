@@ -91,10 +91,14 @@ public interface Show {
 	  * @param episode
 	  * @param event
 	  */
-	 void addEvent(int season, int episode, Event event);
+	 void addEvent(int season, int episode, Event event, String [] playersNames);
 	 
-	 void addEpisodeToACharacter(String character, int season, int episode);
-	 
+	// void addEpisodeToACharacter(String character, int season, int episode);
+	 /**
+	  * iterates number of seasons
+	  * @return
+	  */
+	 Iterator<Integer> iterateSeasons();
 	 /**
 	  * lists all events of a the episode of a season
 	  * @param season

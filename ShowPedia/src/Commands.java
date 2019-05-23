@@ -5,7 +5,7 @@ public enum Commands {
 	//depois remover o comando "ALL"
 	ADDSHOW("ADDSHOW"), HELP("HELP"), CURRENTSHOW("CURRENTSHOW"), SWITCHTOSHOW("SWITCHTOSHOW"), ADDSEASON("ADDSEASON"),
 	ADDEPISODE("ADDEPISODE"), ADDCHARACTER("ADDCHARACTER"), ADDRELATIONSHIP("ADDRELATIONSHIP"), ALL("ALL"), ADDEVENT("ADDEVENT"),
-	ADDROMANCE("ADDROMANCE"), ADDQUOTE("ADDQUOTE"), SEASONSOUTLINE("SEASONSOUTLINE"),
+	ADDROMANCE("ADDROMANCE"), ADDQUOTE("ADDQUOTE"), SEASONSOUTLINE("SEASONSOUTLINE"), CHARACTERRESUME("CHARACTERRESUME"),
 	EXIT("EXIT"), UNKNOWN("Unknown command. Type help to see available commands.");
 
 	private final String name;
@@ -22,7 +22,7 @@ public enum Commands {
 		if (command.equals("ADDSHOW") || command.equals("HELP") || command.equals("CURRENTSHOW")
 				|| command.equals("SWITCHTOSHOW") || command.equals("ADDSEASON") || command.equals("ADDEPISODE")
 				|| command.equals("EXIT") || command.equals("ADDCHARACTER") || command.equals("ALL")
-				|| command.equals("SEASONSOUTLINE") ||
+				|| command.equals("SEASONSOUTLINE") || command.equals("CHARACTERRESUME")||
 				command.equals("ADDRELATIONSHIP") ||command.equals("ADDEVENT") || command.equals("ADDROMANCE") || command.equals("ADDQUOTE")                  ) {
 			return true;
 		} else {

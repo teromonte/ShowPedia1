@@ -108,6 +108,7 @@ public class Main {
 		case SEASONSOUTLINE:
 			seasonsOutline(in, a1);
 			break;
+		case CHARACTERRESUME: characterResume(in, a1);break;
 		default:
 			break;
 		}
@@ -318,11 +319,22 @@ public class Main {
 		System.out.print("Romantic relationships: ");
 		fatherNames(pp.iterateRomanticPartners());
 		
-		Iterator<Event>events = pp.iterateEvents();
-		while(events.hasNext()) {
-			Event ev = events.next();
+		Iterator<Integer> seasons = a1.getCurrentShowObject().iterateSeasons();
+		while(seasons.hasNext()) {
+			int ss = seasons.next();
+		 Iterator<Episode> episodes = a1.getCurrentShowObject().getEpisodes(ss);
+		 	while(episodes.hasNext()) {
+		 		Episode epi = episodes.next();
+		 		if(epi.ThisCharacterInThisEpsisode(characterName)) {
+		 			System.out.printf("S%d Ep%d: %s\n",ss,epi.getEpisodeNum(),epi.getEpisodeName());
+		 			Iterator<Event> events = epi.getThisCharacterEvents(characterName);
+		 			while(events.hasNext()) {
+		 				System.out.println(events.next().getEventName());
+		 			}
+		 		}
+		 	}
 		}
-		System.out.print("S%d Ep%d: %s");
+		
 		}catch(NotExistShowException exception) {
 			System.out.println(NO_SHOW_SELECTED);
 		}catch (NonExistentActor exception) {

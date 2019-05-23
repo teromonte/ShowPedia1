@@ -254,9 +254,9 @@ public class AplicationClass implements Aplication {
 				Personagem cc = currentShow.getThisCharacter(personagem);
 				event.addCharacter(cc);
 				cc.addEvent(event);
-				currentShow.addEpisodeToACharacter(personagem, seasonNum, episodeNum); ///////////////////////////////////////
+			//	currentShow.addEpisodeToACharacter(personagem, seasonNum, episodeNum); ///////////////////////////////////////
 			}
-			currentShow.addEvent(seasonNum, episodeNum, event);
+			currentShow.addEvent(seasonNum, episodeNum, event,playersNames);
 	}
 	
 	public void canIterateEvents (int seasonStart, int seasonEnd)throws NotExistShowException, InexistentSeasonException{
@@ -294,7 +294,7 @@ public class AplicationClass implements Aplication {
 	public Personagem characterResume(String characterName) throws NotExistShowException, NonExistentActor{
 		if(!isThereSelectedShow()) {
 			throw new NotExistShowException();
-		}else if(currentShow.ThereThisCharacter(characterName)) {
+		}else if(!currentShow.ThereThisCharacter(characterName)) {
 			throw new NonExistentActor();
 		}else {
 			return currentShow.getThisCharacter(characterName);
