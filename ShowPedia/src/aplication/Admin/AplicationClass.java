@@ -262,7 +262,7 @@ public class AplicationClass implements Aplication {
 	public void canIterateEvents (int seasonStart, int seasonEnd)throws NotExistShowException, InexistentSeasonException{
 		if(!isThereSelectedShow()) {
 			throw new NotExistShowException();
-		}else if(!(seasonStart>=currentShow.getNumberOfSeasons()&&seasonEnd<=currentShow.getNumberOfSeasons())) {
+		}else if(!(seasonStart>0&&seasonEnd<=currentShow.getNumberOfSeasons())) {
 			throw new InexistentSeasonException();
 		}
 	}

@@ -31,7 +31,7 @@ public class ShowClass implements Show {
 		this.name = name;
 		totalEpisodeCount = 0;
 
-		episodesPerSeason = new HashMap<Integer, List<Episode>>(); //
+		episodesPerSeason = new TreeMap<Integer,List<Episode>>(); //
 		numberOfSesons = 1; // Um show ja comeca com uma temporada pronta
 		episodes = new ArrayList<Episode>(); // e um aray de episodios, logo de cara
 		episodesPerSeason.put(numberOfSesons, episodes); //

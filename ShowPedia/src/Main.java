@@ -322,6 +322,7 @@ public class Main {
 		Iterator<Integer> seasons = a1.getCurrentShowObject().iterateSeasons();
 		while(seasons.hasNext()) {
 			int ss = seasons.next();
+			System.out.println(ss+"temporadas");
 		 Iterator<Episode> episodes = a1.getCurrentShowObject().getEpisodes(ss);
 		 	while(episodes.hasNext()) {
 		 		Episode epi = episodes.next();
