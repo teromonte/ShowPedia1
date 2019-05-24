@@ -20,6 +20,7 @@ import object.Event.Event;
 public class ShowClass implements Show {
 	
 	Map<Integer, List<Episode>> episodesPerSeason; // <TEMPORADA,EPISODIOS>
+	
 	Map<String, Personagem> characters; // a collection of characters featuring the show
 
 	private int totalEpisodeCount;
@@ -72,7 +73,7 @@ public class ShowClass implements Show {
 
 	public void addEpisodeToSeason(int season, String episodeName) {
 		totalEpisodeCount++;
-		Episode p = new EpisodeClass(episodeName,totalEpisodeCount, season);
+		Episode p = new EpisodeClass(episodeName,episodesPerSeason.get(season).size() + 1, season);
 		episodesPerSeason.get(season).add(p);
 	}
 	/*Considering that the relation is transitive mutual*/
