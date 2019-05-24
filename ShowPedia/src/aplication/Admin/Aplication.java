@@ -1,6 +1,7 @@
 package aplication.Admin;
 
 import java.util.Iterator;
+import java.util.List;
 
 import character.object.Personagem;
 import exceptions.All.CharacterExistException;
@@ -11,6 +12,7 @@ import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
+import exceptions.All.NotRelatedException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
@@ -153,4 +155,15 @@ public interface Aplication {
 	 * @throws NonExistentActor If the character does not exist,
 	 */
 	Personagem characterResume(String characterName) throws NotExistShowException, NonExistentActor;
+	/**
+	 * 
+	 * @param character1
+	 * @param character2
+	 * @return an iterator of character related characters
+	 * @throws NotExistShowException If there is no selected show,
+	 * @throws NonExistentActor If at least one of the characters does not exist,
+	 * @throws SameCharacterException If the characters exist, but are the same
+	 * @throws NotRelatedException If the two characters are not related
+	 */ 
+	Iterator<Personagem> howAreTheseTwoRelated(String character1, String character2) throws NotExistShowException, NonExistentActor,SameCharacterException, NotRelatedException;
 }

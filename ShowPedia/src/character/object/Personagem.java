@@ -89,6 +89,11 @@ public interface Personagem {
 	 */
 	void addEvent(Event event);
 	/**
+	 * adds siblings to this character by giving the parent object
+	 * @param par
+	 */
+	 void addSibling(Personagem par);
+	/**
 	 * 
 	 * @return this character quotes collection
 	 */

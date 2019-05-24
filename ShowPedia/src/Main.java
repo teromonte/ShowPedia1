@@ -13,6 +13,7 @@ import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
+import exceptions.All.NotRelatedException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
@@ -39,6 +40,8 @@ public class Main {
 	private static final String SORRY_NO_SELF_DATING = "%s cannot be in a single person romantic relationship!\n";
 	private static final String QUOTE_ADDED = "Quote added.";
 	private static final String INVALID_SEASON_NUMB = "Invalid seasons interval!";
+	private static final String DUUUUUUH = "Like... you know, they are THE SAME character! duuuuh...";
+	private static final String NOT_RELATED = "These characters are not related!";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -106,6 +109,7 @@ public class Main {
 			seasonsOutline(in, a1);
 			break;
 		case CHARACTERRESUME: characterResume(in, a1);break;
+		case HOWARETHESETWORELATED: howAreTheseTwoRelated(in, a1);break;
 		default:
 			break;
 		}
@@ -351,6 +355,29 @@ public class Main {
 				}
 			}
 			System.out.println();
+		}
+	}
+	private static void howAreTheseTwoRelated(Scanner in, Aplication a1) {
+		String character1 = in.nextLine();
+		String character2 = in.nextLine();
+		try {
+			Iterator<Personagem> it = a1.howAreTheseTwoRelated(character1, character2);
+			while(it.hasNext()) {
+				//Personagem pp = it.next();
+				System.out.print(it.next().getCharacterName());
+				if(it.hasNext()) {
+					System.out.print("; ");
+				}
+			}
+			System.out.println();
+		}catch (NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch (NonExistentActor exception) {
+			System.out.printf(NON_EXISTENT_CHARACTER,exception.getMessage());
+		}catch (SameCharacterException exception) {
+			System.out.println(DUUUUUUH);
+		}catch (NotRelatedException exception) {
+			System.out.println(NOT_RELATED);
 		}
 	}
 }

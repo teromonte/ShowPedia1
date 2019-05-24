@@ -58,6 +58,12 @@ public interface Show {
 	void addCharacter(Personagem act) throws CharacterExistException;
 	/**
 	 * 
+	 * @param parent
+	 */
+	void updateSiblings(Personagem parent);
+	
+	/**
+	 * 
 	 * @param character
 	 * @return the character of the given name
 	 */
@@ -106,4 +112,6 @@ public interface Show {
 	  * @return  
 	  */
 	 Iterator<Episode> getEpisodes(int season);
+	 
+	 Iterator<Personagem> howAreTheseTwoRelated(String avo, String neto);
 }

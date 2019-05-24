@@ -20,6 +20,7 @@ import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
+import exceptions.All.NotRelatedException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
@@ -148,6 +149,7 @@ public class AplicationClass implements Aplication {
 			currentShow.getThisCharacter(son).addParents(fatherCharacter);
 			Personagem sonCharacter = currentShow.getThisCharacter(son);
 			fatherCharacter.addSons(sonCharacter);
+			currentShow.updateSiblings(fatherCharacter);
 			return String.format("%s has now %d kids. %s has now %d parent(s)", father,
 					fatherCharacter.getSons().size(), son, sonCharacter.getParents().size());
 		}
@@ -255,22 +257,33 @@ public class AplicationClass implements Aplication {
 			Personagem cc = currentShow.getThisCharacter(personagem);
 			event.addCharacter(cc);
 			cc.addEvent(event);
-			// currentShow.addEpisodeToACharacter(personagem, seasonNum, episodeNum);
-			// ///////////////////////////////////////
 		}
 		currentShow.addEvent(seasonNum, episodeNum, event, playersNames);
+	}
+	public Iterator<Personagem> howAreTheseTwoRelated(String character1, String character2) throws NotExistShowException, NonExistentActor, SameCharacterException,  NotRelatedException {
+		if(!isThereSelectedShow()) {
+			throw new NotExistShowException();
+		}else if(!currentShow.ThereThisCharacter(character1)) {
+			throw new NonExistentActor(character1);
+		}else if(!currentShow.ThereThisCharacter(character2)) {
+			throw new NonExistentActor(character2);
+		}else if(character1.equalsIgnoreCase(character2)){
+			throw new SameCharacterException();
+		} else{
+			Iterator<Personagem> related = currentShow.howAreTheseTwoRelated(character1, character2);
+			if(related==null) {
+				throw new NotRelatedException();
+			}else {
+				return related ;
+			}
+		}
 	}
 
 	public void canIterateEvents(int seasonStart, int seasonEnd)
 			throws NotExistShowException, InexistentSeasonException {
-		int ola = 4;
 		if (!isThereSelectedShow()) {
 			throw new NotExistShowException();
-<<<<<<< HEAD
-		}else if(!(seasonStart>0&&seasonEnd<=currentShow.getNumberOfSeasons())) {
-=======
-		} else if (ola !=4) {
->>>>>>> master
+		} else if (!(seasonStart > 0 && seasonEnd <= currentShow.getNumberOfSeasons())) {
 			throw new InexistentSeasonException();
 		}
 	}

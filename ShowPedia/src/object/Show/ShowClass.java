@@ -2,7 +2,7 @@ package object.Show;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,6 +83,45 @@ public class ShowClass implements Show {
 	public boolean areTheseTwoRomantic(String character1, String character2) {
 		return getThisCharacter(character1).isMyRomanticPartner(character2);	
 	}
+	public Iterator<Personagem> howAreTheseTwoRelated(String avo, String neto) {
+		List<Personagem> relateP = new ArrayList<>();
+		
+		Personagem old = getThisCharacter(avo);
+		Personagem young = getThisCharacter(neto);
+		if(old.isMySon(neto)) {
+			relateP.add(old);
+			relateP.add(young);
+			return relateP.iterator();
+		}else {
+			Iterator<Personagem> filhos = old.iterateSons();
+			while(filhos.hasNext()) {
+				Personagem ff = filhos.next();
+				if(ff.isMySon(neto)) {
+					relateP.add(old);
+					relateP.add(ff);
+					relateP.add(young);
+					return relateP.iterator();
+				}
+			}
+		}
+		if(old.isMyParent(neto)) {
+			relateP.add(young);
+			relateP.add(old);
+			return relateP.iterator();
+		}else {
+			Iterator<Personagem> pais = old.iterateParents();
+			while(pais.hasNext()){
+				Personagem gFather = pais.next();
+				if(gFather.isMyParent(neto)) {
+					relateP.add(young);
+					relateP.add(gFather);
+					relateP.add(old);
+					return relateP.iterator();
+				}
+			}
+		}
+		return null;
+	}
 	public boolean ThereThisCharacter(String player) {
 		return getThisCharacter(player)!=null;
 	}
@@ -95,6 +134,15 @@ public class ShowClass implements Show {
 			}
 		}
 		return null;
+	}
+	public void updateSiblings(Personagem parent) {
+		Iterator<Personagem> it = characters.values().iterator();
+		while(it.hasNext()) {
+			Personagem per = it.next();
+			if(per.isMyParent(parent.getCharacterName())) {
+				per.addSibling(parent);
+			}
+		}
 	}
 	public Iterator<Personagem> iterateAllCharacters(){
 		return characters.values().iterator();
