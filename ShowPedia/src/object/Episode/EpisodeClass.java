@@ -15,6 +15,7 @@ public class EpisodeClass implements Episode {
 	private String name;
 	private int episodeNum; 
 	private int season;
+	
 	public EpisodeClass(String name, int episodeNum, int season) {
 		eventsList = new ArrayList<Event>();
 		eventsPerCharacter = new TreeMap<String, List<Event>>();

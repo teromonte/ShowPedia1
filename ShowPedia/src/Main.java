@@ -56,11 +56,8 @@ public class Main {
 		System.out.print("> ");
 		String name = in.next().toUpperCase();
 		in.nextLine();
-		if (!Commands.isCommValid(name)) {
-			name = in.nextLine().toUpperCase();
-		}
 		try {
-			return Commands.fromString(name);
+			return Commands.stringToCommand(name);
 		} catch (CommDontExist e) {
 			System.out.println("Unknown command. Type help to see available commands.");
 			return Commands.UNKNOWN;
@@ -233,6 +230,7 @@ public class Main {
 		}
 		try {
 			a1.addEvent(eventName, seasonNum, episodeNum, nrPlayersIn, playersNames);
+			System.out.println("Event added.");
 		} catch (NotExistShowException exception) {
 			System.out.println(NO_SHOW_SELECTED);
 		} catch (InexistentSeasonException exception) {
@@ -290,7 +288,7 @@ public class Main {
 				Iterator<Episode> episode = a1.getEpisodes(seasonStart);
 				while (episode.hasNext()) {
 					Episode ep = episode.next();
-					System.out.printf("S%d Ep%d: Episode%d\n", seasonStart, ep.getEpisodeNum(), ep.getEpisodeNum());
+					System.out.printf("S%d Ep%d: %s\n", seasonStart, ep.getEpisodeNum(), ep.getEpisodeName());
 					Iterator<Event> events = ep.iterateEvents();
 					while (events.hasNext()) {
 						Event ev = events.next();
