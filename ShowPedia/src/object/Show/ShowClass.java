@@ -84,9 +84,10 @@ public class ShowClass implements Show {
 	public boolean areTheseTwoRomantic(String character1, String character2) {
 		return getThisCharacter(character1).isMyRomanticPartner(character2);	
 	}
+	
+	//this method only chekck family relationship until the 4 generation
 	public Iterator<Personagem> howAreTheseTwoRelated(String avo, String neto) {
 		List<Personagem> relateP = new ArrayList<>();
-		
 		Personagem old = getThisCharacter(avo);
 		Personagem young = getThisCharacter(neto);
 		if(old.isMySon(neto)) {
@@ -102,23 +103,64 @@ public class ShowClass implements Show {
 					relateP.add(ff);
 					relateP.add(young);
 					return relateP.iterator();
+				}else {
+					Personagem nn = isMySon(ff.iterateSons(), neto);
+					if(nn!=null) {
+						relateP.add(old);
+						relateP.add(ff);
+						relateP.add(nn);
+						relateP.add(young);
+						return relateP.iterator();
+					}
 				}
 			}
 		}
+		//checks if neto if avo's father
 		if(old.isMyParent(neto)) {
 			relateP.add(young);
 			relateP.add(old);
 			return relateP.iterator();
 		}else {
+			
 			Iterator<Personagem> pais = old.iterateParents();
 			while(pais.hasNext()){
 				Personagem gFather = pais.next();
+				//checks if neto is the father of any of avo's father 
 				if(gFather.isMyParent(neto)) {
 					relateP.add(young);
 					relateP.add(gFather);
 					relateP.add(old);
 					return relateP.iterator();
+				}else {
+					Personagem dd = isMyFather(gFather.iterateParents(), neto);
+					// so on
+					if(dd!=null) {
+						relateP.add(young);
+						relateP.add(dd);
+						relateP.add(gFather);
+						relateP.add(old);
+						return relateP.iterator();
+					}
 				}
+			}
+		}
+		return null;
+	}
+	
+	private Personagem isMySon(Iterator<Personagem> per,String son) {
+		while(per.hasNext()) {
+			Personagem nn = per.next();
+			if(nn.isMySon(son)) {
+				return nn;
+			}
+		}
+		return null;
+	}
+	private Personagem isMyFather(Iterator<Personagem> per,String dad) {
+		while(per.hasNext()) {
+			Personagem nn = per.next();
+			if(nn.isMyParent(dad)) {
+				return nn;
 			}
 		}
 		return null;
