@@ -56,6 +56,8 @@ public interface Personagem {
 	List<Personagem> getSiblings();
 
 	 List<Episode> getMyEpisodes();
+	 
+	 Quote getThisQuote(String quote);
 	
 	Iterator<Personagem> iterateParents();
 

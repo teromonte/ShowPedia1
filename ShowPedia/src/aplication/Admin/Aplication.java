@@ -8,6 +8,7 @@ import exceptions.All.CharacterExistException;
 import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
 import exceptions.All.InexistentEpisodeNumber;
+import exceptions.All.InexistentQuoteException;
 import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
@@ -16,6 +17,8 @@ import exceptions.All.NotRelatedException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
+import exceptions.All.VirtualActorException;
+import object.Actor.VirtualActorClass;
 import object.Episode.Episode;
 import object.Show.Show;
 
@@ -83,29 +86,36 @@ public interface Aplication {
 	 * @param father
 	 * @param son
 	 * @throws NotExistShowException, If there is no selected show,
-	 * @throws SameCharacterException It is not possible to establish a relationship with the same character
-	 * @throws NonExistentActor If at least one of the characters does not exist
+	 * @throws SameCharacterException It is not possible to establish a relationship
+	 *                                with the same character
+	 * @throws NonExistentActor       If at least one of the characters does not
+	 *                                exist
 	 */
 	String addfamilyRelationShip(String father, String son)
-			throws NotExistShowException, SameCharacterException, NonExistentActor,RepeatedRelationShip;
+			throws NotExistShowException, SameCharacterException, NonExistentActor, RepeatedRelationShip;
+
 	/**
-	 * Add a romantic relationship between characters.
-	 * In a romantic relationship, we add
-	 * two elements, establishing a relationship among them.
+	 * Add a romantic relationship between characters. In a romantic relationship,
+	 * we add two elements, establishing a relationship among them.
+	 * 
 	 * @param character1
 	 * @param character2
-	 * @throws NotExistShowException If there is no selected show;
-	 * @throws SameCharacterException It is not possible to establish a relationship with the same character;
-	 * @throws NonExistentActor If at least one of the characters does not exist;
-	 * @throws RepeatedRelationShip If the relationship is repeated.
+	 * @throws NotExistShowException  If there is no selected show;
+	 * @throws SameCharacterException It is not possible to establish a relationship
+	 *                                with the same character;
+	 * @throws NonExistentActor       If at least one of the characters does not
+	 *                                exist;
+	 * @throws RepeatedRelationShip   If the relationship is repeated.
 	 */
-	String addRomanticRelationShip(String character1, String character2) throws NotExistShowException, SameCharacterException, 
-	NonExistentActor,RepeatedRelationShip;
+	String addRomanticRelationShip(String character1, String character2)
+			throws NotExistShowException, SameCharacterException, NonExistentActor, RepeatedRelationShip;
 
 	Iterator<Personagem> getCurrentShowCharacters() throws EmptyCollectionException;
+
 	/**
-	 * Add a signicant event involving at least one character.The command receives
+	 * Add a signi cant event involving at least one character.The command receives
 	 * the following parameters
+	 * 
 	 * @param eventName
 	 * @param seasonNum
 	 * @param episodeNum
@@ -115,11 +125,13 @@ public interface Aplication {
 	 * @throws InexistentSeasonException
 	 * @throws NonExistentActor
 	 */
-	void addEvent(String eventName, int seasonNum, int episodeNum, int nrPlayersIn, String [] playersNames) 
-			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor ;
+	void addEvent(String eventName, int seasonNum, int episodeNum, int nrPlayersIn, String[] playersNames)
+			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor;
+
 	/**
-	 * Add a new quote to a character.
-	 * The command receives the information the following information and adds that quote to tha character
+	 * Add a new quote to a character. The command receives the information the
+	 * following information and adds that quote to tha character
+	 * 
 	 * @param season
 	 * @param episode
 	 * @param character
@@ -129,41 +141,70 @@ public interface Aplication {
 	 * @throws InexistentEpisodeNumber
 	 * @throws NonExistentActor
 	 */
-	void addQuote(int season, int episode, String character, String quote) throws NotExistShowException, 
-	InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor;
-	
+	void addQuote(int season, int episode, String character, String quote)
+			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor;
+
 	Show getCurrentShowObject();
-	/**checks the error that might interrupt the command seasonoutline
+
+	/**
+	 * checks the error that might interrupt the command seasonoutline
 	 * 
 	 * @param seasonStart
 	 * @param seasonEnd
 	 * @throws NotExistShowException
 	 * @throws InexistentSeasonException
 	 */
-	void canIterateEvents (int seasonStart, int seasonEnd)throws NotExistShowException, InexistentSeasonException;
-	 /**
-	  *
-	  * @param season
-	  * @return an iterator of episodes of a season
-	  */
+	void canIterateEvents(int seasonStart, int seasonEnd) throws NotExistShowException, InexistentSeasonException;
+
+	/**
+	 *
+	 * @param season
+	 * @return an iterator of episodes of a season
+	 */
 	public Iterator<Episode> getEpisodes(int season);
+
 	/**
 	 * 
 	 * @param characterName
 	 * @return the character object of the given name
 	 * @throws NotExistShowException If there is no selected show,
-	 * @throws NonExistentActor If the character does not exist,
+	 * @throws NonExistentActor      If the character does not exist,
 	 */
 	Personagem characterResume(String characterName) throws NotExistShowException, NonExistentActor;
+
 	/**
 	 * 
 	 * @param character1
 	 * @param character2
 	 * @return an iterator of character related characters
-	 * @throws NotExistShowException If there is no selected show,
-	 * @throws NonExistentActor If at least one of the characters does not exist,
+	 * @throws NotExistShowException  If there is no selected show,
+	 * @throws NonExistentActor       If at least one of the characters does not
+	 *                                exist,
 	 * @throws SameCharacterException If the characters exist, but are the same
-	 * @throws NotRelatedException If the two characters are not related
-	 */ 
-	Iterator<Personagem> howAreTheseTwoRelated(String character1, String character2) throws NotExistShowException, NonExistentActor,SameCharacterException, NotRelatedException;
+	 * @throws NotRelatedException    If the two characters are not related
+	 */
+	Iterator<Personagem> howAreTheseTwoRelated(String character1, String character2)
+			throws NotExistShowException, NonExistentActor, SameCharacterException, NotRelatedException;
+
+	/**
+	 * 
+	 * @param quote
+	 * @return an iterator with all the characters who have said the quote "quote"
+	 * @throws NotExistShowException    If there is no selected show,
+	 * @throws InexistentQuoteException If nobody said the quote
+	 */
+	Iterator<Personagem> famousQuotes(String quote) throws NotExistShowException, InexistentQuoteException;
+
+	/**
+	 * This command searches for other roles played by the same actor in other shows
+	 * The command receives the name of the character and uses it to identify who
+	 * the actor playing it is
+	 * 
+	 * @param characterName
+	 * @return
+	 * @throws NotExistShowException If there is no selected show,
+	 * @throws NonExistentActor      If there is no character in the show with that
+	 *                               name,
+	 */
+	Iterator<Show> iterateParticipatedShows(String characterName) throws NotExistShowException, VirtualActorException, NonExistentActor;
 }

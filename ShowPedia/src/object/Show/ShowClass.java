@@ -16,6 +16,7 @@ import exceptions.All.CharacterExistException;
 import object.Episode.Episode;
 import object.Episode.EpisodeClass;
 import object.Event.Event;
+import object.Quote.Quote;
 
 public class ShowClass implements Show {
 	
@@ -122,6 +123,22 @@ public class ShowClass implements Show {
 		}
 		return null;
 	}
+	
+	public Iterator<Personagem> famousQuotes(String quote){
+		List<Personagem> quotes = new ArrayList<Personagem>();
+		Iterator<Personagem> it = characters.values().iterator();
+		while(it.hasNext()) {
+			Personagem pp = it.next();
+			if(pp.getThisQuote(quote)!=null) {
+				quotes.add(pp);
+			}
+		}
+		if(quotes.size()==0) {
+			return null;
+		}
+		return quotes.iterator();
+	}
+	
 	public boolean ThereThisCharacter(String player) {
 		return getThisCharacter(player)!=null;
 	}

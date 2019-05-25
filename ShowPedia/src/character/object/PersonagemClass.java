@@ -2,15 +2,21 @@ package character.object;
 
 import java.util.ArrayList;
 
+
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import object.Episode.Episode;
 import object.Event.Event;
 import object.Quote.Quote;
+import object.Show.Show;
+import object.showsComparator.ComparatorByAlphabetOrder;
 
 public class PersonagemClass implements Personagem {
-
+	
+	
 	private List<Personagem> sonsCollection;
 	private List<Personagem> parentsCollection;
 	private List<Personagem> romanticPartners;
@@ -79,7 +85,16 @@ public class PersonagemClass implements Personagem {
 	public List<Quote> getMyQuotes() {
 		return myQuotes;
 	}
-
+	public Quote getThisQuote(String quote) {
+		Iterator<Quote> it = myQuotes.iterator();
+		while(it.hasNext()) {
+			Quote q = it.next();
+			if(q.getQuote().equalsIgnoreCase(quote)) {
+				return q;
+			}
+		}
+		return null;
+	}
 	public List<Episode> getMyEpisodes() {
 		return myEpisodes;
 	}

@@ -15,6 +15,11 @@ public class VirtualActorClass extends AbstractActorClass implements VirtualActo
 	public Personagem getCharacter() {
 		return virtual;
 	}
+
+	public boolean hasThisCharacter(String characterName) {
+		return virtual.getCharacterName().equalsIgnoreCase(characterName);
+	}
+
 	@Override
 	public int compareTo(Actor o) {
 		// TODO Auto-generated method stub

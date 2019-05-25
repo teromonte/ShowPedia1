@@ -16,6 +16,7 @@ import exceptions.All.CharacterExistException;
 import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
 import exceptions.All.InexistentEpisodeNumber;
+import exceptions.All.InexistentQuoteException;
 import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
@@ -24,6 +25,7 @@ import exceptions.All.NotRelatedException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
+import exceptions.All.VirtualActorException;
 import object.Actor.Actor;
 import object.Actor.RealActor;
 import object.Actor.RealActorClass;
@@ -45,7 +47,7 @@ public class AplicationClass implements Aplication {
 	private Map<String, List<Show>> showsPerActors; // an has a collection of shows in which he has participated
 	private List<Actor> actorsCollection; // the application registry of all the actors
 	private Map<String, Actor> virtualActors; // only virtual actors
-	private Map<String, List<Quote>> quotesPerCharacters;
+	// private Map<String, List<Quote>> quotesPerCharacters;
 	private Show currentShow;
 	private String currentShowName;
 
@@ -55,7 +57,7 @@ public class AplicationClass implements Aplication {
 		actorsPerShow = new TreeMap<String, LinkedList<Actor>>();
 		virtualActors = new TreeMap<>();
 		showsPerActors = new TreeMap<>();
-		quotesPerCharacters = new TreeMap<>();
+		// quotesPerCharacters = new TreeMap<>();
 		currentShow = null;
 		currentShowName = null;
 	}
@@ -68,6 +70,7 @@ public class AplicationClass implements Aplication {
 			LinkedList<Actor> actors = new LinkedList<>();
 			actorsPerShow.put(showName, actors);
 			shows.put(showName, s);
+			currentShow = s;
 		}
 	}
 
@@ -150,7 +153,7 @@ public class AplicationClass implements Aplication {
 			Personagem sonCharacter = currentShow.getThisCharacter(son);
 			fatherCharacter.addSons(sonCharacter);
 			currentShow.updateSiblings(fatherCharacter);
-			return String.format("%s has now %d kids. %s has now %d parent(s)", father,
+			return String.format("%s has now %d kids. %s has now %d parent(s).", father,
 					fatherCharacter.getSons().size(), son, sonCharacter.getParents().size());
 		}
 	}
@@ -170,14 +173,15 @@ public class AplicationClass implements Aplication {
 			throw new CharacterExistException();
 		} else {
 			Actor act = new VirtualActorClass(characterName, actorName, feePerEpisode, type);
+			act.addShow(currentShow);
 			Personagem car = new PersonagemClass(characterName);
 			currentShow.addCharacter(car); // adds to a show collection of Personagems
 			virtualActors.put(characterName, act); //// adds only in virtual actors collection
 			actorsCollection.add(act); // adds to the application of all kinds of actors collection
 			actorsPerShow.get(currentShow.getShowName()).add(act); // adds to a map of showName, charactersCollection
-			List<Quote> quotes = new ArrayList<Quote>();
-			quotesPerCharacters.put(characterName, quotes);
-			return String.format("%s is now part of %s. This is a virtual actor", characterName,
+			// List<Quote> quotes = new ArrayList<Quote>();
+			// quotesPerCharacters.put(characterName, quotes);
+			return String.format("%s is now part of %s. This is a virtual actor.", characterName,
 					currentShow.getShowName(), actorName);
 		}
 	}
@@ -199,15 +203,16 @@ public class AplicationClass implements Aplication {
 		} else {
 			act = (RealActor) getThisActor(actorName);
 		}
+		act.addShow(currentShow);
 		act.addCharacter(characterName);
 		Personagem car = new PersonagemClass(characterName);
 		currentShow.addCharacter(car); // adds to a show collection of actors
 		actorsCollection.add(act); // adds to the application of all kinds of actors collection
 		actorsPerShow.get(currentShow.getShowName()).add(act); // adds to a map of showName, charactersCollection
 		addShowToActorCollection(actorName);
-		List<Quote> quotes = new ArrayList<Quote>();
-		quotesPerCharacters.put(characterName, quotes);
-		return String.format("%s is now part of %s. This is %s role %d", characterName, currentShow.getShowName(),
+		// List<Quote> quotes = new ArrayList<Quote>();
+		// quotesPerCharacters.put(characterName, quotes);
+		return String.format("%s is now part of %s. This is %s role %d.", characterName, currentShow.getShowName(),
 				actorName, act.numberOfParticipatedCharacters());
 	}
 
@@ -228,7 +233,7 @@ public class AplicationClass implements Aplication {
 			Personagem partner2 = currentShow.getThisCharacter(character2);
 			partner1.addRomanticPartner(partner2);
 			partner2.addRomanticPartner(partner1);
-			return String.format("%s and %s are now a couple", character1, character2);
+			return String.format("%s and %s are now a couple.", character1, character2);
 		}
 	}
 
@@ -260,21 +265,23 @@ public class AplicationClass implements Aplication {
 		}
 		currentShow.addEvent(seasonNum, episodeNum, event, playersNames);
 	}
-	public Iterator<Personagem> howAreTheseTwoRelated(String character1, String character2) throws NotExistShowException, NonExistentActor, SameCharacterException,  NotRelatedException {
-		if(!isThereSelectedShow()) {
+
+	public Iterator<Personagem> howAreTheseTwoRelated(String character1, String character2)
+			throws NotExistShowException, NonExistentActor, SameCharacterException, NotRelatedException {
+		if (!isThereSelectedShow()) {
 			throw new NotExistShowException();
-		}else if(!currentShow.ThereThisCharacter(character1)) {
+		} else if (!currentShow.ThereThisCharacter(character1)) {
 			throw new NonExistentActor(character1);
-		}else if(!currentShow.ThereThisCharacter(character2)) {
+		} else if (!currentShow.ThereThisCharacter(character2)) {
 			throw new NonExistentActor(character2);
-		}else if(character1.equalsIgnoreCase(character2)){
+		} else if (character1.equalsIgnoreCase(character2)) {
 			throw new SameCharacterException();
-		} else{
+		} else {
 			Iterator<Personagem> related = currentShow.howAreTheseTwoRelated(character1, character2);
-			if(related==null) {
+			if (related == null) {
 				throw new NotRelatedException();
-			}else {
-				return related ;
+			} else {
+				return related;
 			}
 		}
 	}
@@ -299,19 +306,31 @@ public class AplicationClass implements Aplication {
 		return currentShow.iterateAllCharacters();
 	}
 
+	public Iterator<Personagem> famousQuotes(String quote) throws NotExistShowException, InexistentQuoteException {
+		Iterator<Personagem> pp = currentShow.famousQuotes(quote);
+		if (!isThereSelectedShow()) {
+			throw new NotExistShowException();
+		} else if (pp == null) {
+			throw new InexistentQuoteException();
+		}
+		return pp;
+	}
+
 	public void addQuote(int season, int episode, String character, String quote)
 			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor {
+		Personagem pp = currentShow.getThisCharacter(character);
 		if (!isThereSelectedShow()) {
 			throw new NotExistShowException();
 		} else if (season < 0 || season > currentShow.getNumberOfSeasons()) {
 			throw new InexistentSeasonException();
 		} else if (episode > currentShow.getThisSeason(season).size()) {
 			throw new InexistentEpisodeNumber();
-		} else if (!currentShow.ThereThisCharacter(character)) {
+		} else if (pp == null) {
 			throw new NonExistentActor();
 		} else {
 			Quote qq = new QuoteClass(season, episode, character, quote);
-			quotesPerCharacters.get(hasThisCharacterAQuote(character)).add(qq);
+			pp.getMyQuotes().add(qq);
+			// quotesPerCharacters.get(hasThisCharacterAQuote(character)).add(qq);
 		}
 	}
 
@@ -334,9 +353,27 @@ public class AplicationClass implements Aplication {
 		if (showsPerActors.containsKey(actorName)) {
 			showsPerActors.get(actorName).add(currentShow);
 		} else {
-			LinkedList<Show> myShows = new LinkedList<>();
+			List<Show> myShows = new ArrayList<Show>();
 			showsPerActors.put(actorName, myShows);
 		}
+	}
+
+	public Iterator<Show> iterateParticipatedShows(String characterName) throws NotExistShowException, VirtualActorException, NonExistentActor {
+		boolean virtual = false;
+		if (!isThereSelectedShow()) {
+			throw new NotExistShowException();
+		} 
+		Iterator<Actor> it = actorsCollection.iterator();
+		while (it.hasNext()) {
+			Actor act = it.next();
+			if (act.hasThisCharacter(characterName)) {
+				if( act instanceof VirtualActorClass) {
+					throw new VirtualActorException();
+				}
+				return act.getAllShows();
+			}
+		}
+		throw new NonExistentActor();
 	}
 
 	private boolean mapContainsThisKey(String showName) {
@@ -357,16 +394,16 @@ public class AplicationClass implements Aplication {
 	 * @param character
 	 * @return
 	 */
-	private String hasThisCharacterAQuote(String character) {
-		Iterator<String> it = quotesPerCharacters.keySet().iterator();
-		while (it.hasNext()) {
-			String kk = it.next();
-			if (character.equalsIgnoreCase(kk)) {
-				return kk;
-			}
-		}
-		return null;
-	}
+//	private String hasThisCharacterAQuote(String character) {
+//		Iterator<String> it = quotesPerCharacters.keySet().iterator();
+//		while (it.hasNext()) {
+//			String kk = it.next();
+//			if (character.equalsIgnoreCase(kk)) {
+//				return kk;
+//			}
+//		}
+//		return null;
+//	}
 
 	private Actor getThisActor(String actorName) {
 		for (Actor actor : actorsCollection) {

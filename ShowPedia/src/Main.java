@@ -1,4 +1,7 @@
+
+
 import java.util.Iterator;
+
 import java.util.Scanner;
 
 import aplication.Admin.Aplication;
@@ -9,6 +12,7 @@ import exceptions.All.CommDontExist;
 import exceptions.All.EmptyCollectionException;
 import exceptions.All.ExistShowException;
 import exceptions.All.InexistentEpisodeNumber;
+import exceptions.All.InexistentQuoteException;
 import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
 import exceptions.All.NonExistentActor;
@@ -17,8 +21,10 @@ import exceptions.All.NotRelatedException;
 import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
+import exceptions.All.VirtualActorException;
 import object.Episode.Episode;
 import object.Event.Event;
+import object.Show.Show;
 
 public class Main {
 
@@ -42,6 +48,7 @@ public class Main {
 	private static final String INVALID_SEASON_NUMB = "Invalid seasons interval!";
 	private static final String DUUUUUUH = "Like... you know, they are THE SAME character! duuuuh...";
 	private static final String NOT_RELATED = "These characters are not related!";
+	private static final String PLAYED_BY_VIRTUAL ="%s is played by a virtual actor!\n";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -110,6 +117,8 @@ public class Main {
 			break;
 		case CHARACTERRESUME: characterResume(in, a1);break;
 		case HOWARETHESETWORELATED: howAreTheseTwoRelated(in, a1);break;
+		case FAMOUSQUOTES:famousQuotes(in, a1);break;
+		case ALSOAPPEARSON: alsoAppearsOn(in, a1);break;
 		default:
 			break;
 		}
@@ -316,7 +325,7 @@ public class Main {
 		fatherNames(pp.iterateParents());
 		System.out.print("Kids: ");
 		fatherNames(pp.iterateSons());
-		System.out.print("Siblings: ");
+		System.out.print("Siblings:");
 		fatherNames(pp.iterateSiblings());
 		System.out.print("Romantic relationships: ");
 		fatherNames(pp.iterateRomanticPartners());
@@ -324,7 +333,6 @@ public class Main {
 		Iterator<Integer> seasons = a1.getCurrentShowObject().iterateSeasons();
 		while(seasons.hasNext()) {
 			int ss = seasons.next();
-			System.out.println(ss+"temporadas");
 		 Iterator<Episode> episodes = a1.getCurrentShowObject().getEpisodes(ss);
 		 	while(episodes.hasNext()) {
 		 		Episode epi = episodes.next();
@@ -378,6 +386,40 @@ public class Main {
 			System.out.println(DUUUUUUH);
 		}catch (NotRelatedException exception) {
 			System.out.println(NOT_RELATED);
+		}
+	}
+	private static void famousQuotes(Scanner in, Aplication a1) {
+		String quote = in.nextLine();
+		try {
+			Iterator<Personagem> it = a1.famousQuotes(quote);
+			while(it.hasNext()) {
+				Personagem pp = it.next();
+				System.out.print(pp.getCharacterName());
+				if(it.hasNext()) {
+					System.out.print(",");
+				}
+			}
+			System.out.println();
+		}catch(NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch (InexistentQuoteException exception) {
+			System.out.println("First time I hear that!");
+		}
+	}
+	private static void alsoAppearsOn(Scanner in, Aplication a1) {
+		String characterName = in.nextLine();
+		try {
+			Iterator<Show> it = a1.iterateParticipatedShows(characterName);
+			while(it.hasNext()) {
+				Show e = it.next();
+				System.out.println(e.getShowName());
+			}
+		}catch (NotExistShowException exception) {
+			System.out.println(NO_SHOW_SELECTED);
+		}catch (VirtualActorException exception) {
+			System.out.printf(PLAYED_BY_VIRTUAL,characterName);
+		}catch (NonExistentActor exception) {
+				System.out.printf(NON_EXISTENT_CHARACTER,characterName);
 		}
 	}
 }

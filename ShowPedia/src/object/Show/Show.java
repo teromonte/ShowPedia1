@@ -114,4 +114,6 @@ public interface Show {
 	 Iterator<Episode> getEpisodes(int season);
 	 
 	 Iterator<Personagem> howAreTheseTwoRelated(String avo, String neto);
+	 
+	 Iterator<Personagem> famousQuotes(String quote);
 }
