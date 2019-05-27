@@ -56,7 +56,7 @@ public interface Show {
 	 * @param act an which can be a real or a virtual one 
 	 * @throws CharacterExistException
 	 */
-	void addCharacter(Personagem act) throws CharacterExistException;
+	void addCharacter(Personagem act);
 	/**
 	 * 
 	 * @param parent

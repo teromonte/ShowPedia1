@@ -303,11 +303,12 @@ public class Main {
 		in.nextLine();
 		try {
 			a1.canIterateEvents(seasonStart, seasonEnd);
+			System.out.println(a1.getCurrentShowObject().getShowName());
 			while (seasonStart <= seasonEnd) {
 				Iterator<Episode> episode = a1.getEpisodes(seasonStart);
 				while (episode.hasNext()) {
 					Episode ep = episode.next();
-					System.out.printf("S%d Ep%d: %s\n", seasonStart, ep.getEpisodeNum(), ep.getEpisodeName());
+					System.out.printf("S%d EP%d: %s\n", seasonStart, ep.getEpisodeNum(), ep.getEpisodeName());
 					Iterator<Event> events = ep.iterateEvents();
 					while (events.hasNext()) {
 						Event ev = events.next();
@@ -343,7 +344,7 @@ public class Main {
 		 	while(episodes.hasNext()) {
 		 		Episode epi = episodes.next();
 		 		if(epi.ThisCharacterInThisEpsisode(characterName)) {
-		 			System.out.printf("S%d Ep%d: %s\n",ss,epi.getEpisodeNum(),epi.getEpisodeName());
+		 			System.out.printf("S%d EP%d: %s\n",ss,epi.getEpisodeNum(),epi.getEpisodeName());
 		 			Iterator<Event> events = epi.getThisCharacterEvents(characterName);
 		 			while(events.hasNext()) {
 		 				System.out.println(events.next().getEventName());
@@ -402,7 +403,7 @@ public class Main {
 				Personagem pp = it.next();
 				System.out.print(pp.getCharacterName());
 				if(it.hasNext()) {
-					System.out.print(",");
+					System.out.print(", ");
 				}
 			}
 			System.out.println();

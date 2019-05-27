@@ -1,8 +1,6 @@
 package object.Actor;
 
-import character.object.Personagem;
+public interface VirtualActor extends Actor {
 
-public interface VirtualActor extends Actor{
-
-	Personagem getCharacter();
+	int totalRevenue();
 }

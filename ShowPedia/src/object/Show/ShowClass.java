@@ -52,13 +52,8 @@ public class ShowClass implements Show {
 		return totalEpisodeCount;
 	}
 
-	public void addCharacter(Personagem act) throws CharacterExistException {
-		String charName = act.getCharacterName();
-		if (mapContainsThisKey(charName)!=null) {
-			throw new CharacterExistException();
-		} else {
-			characters.put(charName, act);
-		}
+	public void addCharacter(Personagem act){
+			characters.put(act.getCharacterName(), act);
 	}
 
 	public void addSeason() {
@@ -219,7 +214,7 @@ public class ShowClass implements Show {
 		return episodesPerSeason.get(seasonNum);
 	}
 	public void addEvent(int season, int episode, Event event, String [] playersNames) {
-	 List<Episode> p=	episodesPerSeason.get(season);
+	 List<Episode> p =	episodesPerSeason.get(season);
 	 Episode e = p.get(episode-1);
 	 e.addEvent(event, playersNames);
 	}

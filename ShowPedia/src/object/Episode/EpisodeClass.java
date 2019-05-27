@@ -38,6 +38,7 @@ public class EpisodeClass implements Episode {
 			String name = getThisCharacterName(playersNames[i]);
 			if(name==null) {
 				List<Event> ents = new ArrayList<>();
+				ents.add(event);
 				eventsPerCharacter.put(playersNames[i], ents);
 			}else {
 				eventsPerCharacter.get(name).add(event);
