@@ -16,6 +16,8 @@ public interface Personagem {
 	 */
 	String getCharacterName();
 
+	String getActorName();
+
 	/**
 	 * 
 	 * @param car adds a son relationship to a character
@@ -28,11 +30,14 @@ public interface Personagem {
 	 * @param parent
 	 */
 	public void addParents(Personagem parent);
+
 	/**
 	 * adds a romantic partner
+	 * 
 	 * @param partner
 	 */
 	void addRomanticPartner(Personagem partner);
+
 	/**
 	 * 
 	 * @return map of parents
@@ -44,21 +49,23 @@ public interface Personagem {
 	 * @return a map of sons
 	 */
 	public List<Personagem> getSons();
+
 	/**
 	 * 
 	 * @return
 	 */
 	List<Personagem> getLovers();
+
 	/**
 	 * 
 	 * @return an array of siblings
 	 */
 	List<Personagem> getSiblings();
 
-	 List<Episode> getMyEpisodes();
-	 
-	 Quote getThisQuote(String quote);
-	
+	List<Episode> getMyEpisodes();
+
+	Quote getThisQuote(String quote);
+
 	Iterator<Personagem> iterateParents();
 
 	public Iterator<Personagem> iterateSons();
@@ -77,38 +84,40 @@ public interface Personagem {
 	 * @return true if "father" is my father
 	 */
 	boolean isMyParent(String father);
+
 	/**
 	 * 
 	 * @param characterName
-	 * @return true if characterName is is in a romantic relationship with this character
+	 * @return true if characterName is is in a romantic relationship with this
+	 *         character
 	 */
 	boolean isMyRomanticPartner(String characterName);
 
 	/**
 	 * 
 	 * adds event to a character
+	 * 
 	 * @param event
 	 */
 	void addEvent(Event event);
+
 	/**
 	 * adds siblings to this character by giving the parent object
+	 * 
 	 * @param par
 	 */
-	 void addSibling(Personagem par);
+	void addSibling(Personagem par);
+
 	/**
 	 * 
 	 * @return this character quotes collection
 	 */
 	List<Quote> getMyQuotes();
-	/**
-	 * 
-	 * @return
-	 */
+
 	Iterator<Personagem> iterateSiblings();
-	
+
 	Iterator<Personagem> iterateRomanticPartners();
-	
-	Iterator<Event>iterateEvents();
-	
-	
+
+	Iterator<Event> iterateEvents();
+
 }

@@ -11,6 +11,7 @@ import exceptions.All.InexistentEpisodeNumber;
 import exceptions.All.InexistentQuoteException;
 import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
+import exceptions.All.NoRomanceException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
 import exceptions.All.NotRelatedException;
@@ -18,6 +19,7 @@ import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import exceptions.All.VirtualActorException;
+import object.Actor.Actor;
 import object.Actor.VirtualActorClass;
 import object.Episode.Episode;
 import object.Show.Show;
@@ -206,5 +208,19 @@ public interface Aplication {
 	 * @throws NonExistentActor      If there is no character in the show with that
 	 *                               name,
 	 */
-	Iterator<Show> iterateParticipatedShows(String characterName) throws NotExistShowException, VirtualActorException, NonExistentActor;
+	Iterator<Show> iterateParticipatedShows(String characterName)
+			throws NotExistShowException, VirtualActorException, NonExistentActor;
+
+	/**
+	 * The command receives the name of the actor that you want to use as romantic
+	 * icon and lists all actors which are at least as romantic as that actor
+	 * 
+	 * @param actorName
+	 * @return
+	 * @throws NonExistentActor If the actor provided as argument does not exist,
+	 * @throws NoRomanceException If no characters with romantic relationships exist,
+	 */
+	Iterator<Actor> mostRomantic(String actorName) throws NonExistentActor, NoRomanceException;
+	
+	Iterator<Actor> allActors();
 }

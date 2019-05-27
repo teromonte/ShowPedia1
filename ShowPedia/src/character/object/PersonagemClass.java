@@ -5,14 +5,10 @@ import java.util.ArrayList;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import object.Episode.Episode;
 import object.Event.Event;
 import object.Quote.Quote;
-import object.Show.Show;
-import object.showsComparator.ComparatorByAlphabetOrder;
 
 public class PersonagemClass implements Personagem {
 	
@@ -25,9 +21,11 @@ public class PersonagemClass implements Personagem {
 	private List<Event> myEvents;
 	private List<Quote> myQuotes;
 	private String characterName;
+	private String actorName;
 
-	public PersonagemClass(String name) {
+	public PersonagemClass(String name, String actorName) {
 		characterName = name;
+		this.actorName = actorName;
 		sonsCollection = new ArrayList<>();
 		parentsCollection = new ArrayList<>();
 		romanticPartners = new ArrayList<>();
@@ -40,7 +38,9 @@ public class PersonagemClass implements Personagem {
 	public String getCharacterName() {
 		return characterName;
 	}
-
+	public String getActorName() {
+		return actorName;
+	}
 	public void addSons(Personagem car) {
 		sonsCollection.add(car);
 	}
@@ -126,7 +126,7 @@ public class PersonagemClass implements Personagem {
 	public boolean isMySon(String son) {
 		return isRelative(iterateSons(), son);
 	}
-
+ 
 	public void addEvent(Event event) {
 		myEvents.add(event);
 	}

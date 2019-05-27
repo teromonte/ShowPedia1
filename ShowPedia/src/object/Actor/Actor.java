@@ -2,9 +2,10 @@ package object.Actor;
 
 import java.util.Iterator;
 
+import character.object.Personagem;
 import object.Show.Show;
 
-public interface Actor extends Comparable<Actor> {
+public interface Actor {
 
 	/**
 	 * 
@@ -23,6 +24,16 @@ public interface Actor extends Comparable<Actor> {
 	void addShow(Show e);
 
 	Iterator<Show> getAllShows();
-	
+
 	boolean hasThisCharacter(String characterName);
+
+	public int myRelationsNum();
+
+	void addCharacter(Personagem character);
+
+	int numberOfParticipatedShowsWithRelation();
+	
+	void upDateNumberOfShowsWithRelation(String showName);
+	
+	int numberOfParticipatedShows();
 }

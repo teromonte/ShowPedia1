@@ -15,6 +15,7 @@ import exceptions.All.InexistentEpisodeNumber;
 import exceptions.All.InexistentQuoteException;
 import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
+import exceptions.All.NoRomanceException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
 import exceptions.All.NotRelatedException;
@@ -22,6 +23,7 @@ import exceptions.All.RepeatedRelationShip;
 import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import exceptions.All.VirtualActorException;
+import object.Actor.Actor;
 import object.Episode.Episode;
 import object.Event.Event;
 import object.Show.Show;
@@ -49,11 +51,13 @@ public class Main {
 	private static final String DUUUUUUH = "Like... you know, they are THE SAME character! duuuuh...";
 	private static final String NOT_RELATED = "These characters are not related!";
 	private static final String PLAYED_BY_VIRTUAL ="%s is played by a virtual actor!\n";
+	private static final String NO_ROMANTIC_RELATIONS = "Love is not in the air!";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
 		Scanner in = new Scanner(System.in);
 		Commands option = getCommand(in);
+
 		while (!option.equals(Commands.EXIT)) {
 			executeCommand(option, a1, in);
 			option = getCommand(in);
@@ -119,6 +123,8 @@ public class Main {
 		case HOWARETHESETWORELATED: howAreTheseTwoRelated(in, a1);break;
 		case FAMOUSQUOTES:famousQuotes(in, a1);break;
 		case ALSOAPPEARSON: alsoAppearsOn(in, a1);break;
+		case MOSTROMANTIC: mostRomantic(in, a1);break;
+		case ALLACTORS: allActors(a1);break;
 		default:
 			break;
 		}
@@ -420,6 +426,33 @@ public class Main {
 			System.out.printf(PLAYED_BY_VIRTUAL,characterName);
 		}catch (NonExistentActor exception) {
 				System.out.printf(NON_EXISTENT_CHARACTER,characterName);
+		}
+	}
+	private static void mostRomantic(Scanner in, Aplication a1) {
+		String actorName = in.nextLine();
+		boolean good =false;
+		try {
+			Iterator<Actor> it = a1.mostRomantic(actorName);
+			while(it.hasNext()&&!good) {
+				Actor cc = it.next();
+				if(cc.getActorName().equalsIgnoreCase(actorName)) {
+					good=true;
+				}
+		//		if(good) {
+					System.out.println(cc.getActorName()+" "+cc.myRelationsNum());
+		//		}	
+			}
+		}catch (NonExistentActor exception) {
+			System.out.printf(NON_EXISTENT_CHARACTER,actorName);
+		}catch (NoRomanceException exception) {
+			System.out.println(NO_ROMANTIC_RELATIONS);
+		}
+	}
+	private static void allActors(Aplication a1) {
+		Iterator<Actor> it = a1.allActors();
+		while(it.hasNext()) {
+			Actor cc = it.next();
+			System.out.println(cc.getActorName()+" "+cc.myRelationsNum()+" "+cc.numberOfParticipatedShowsWithRelation());
 		}
 	}
 }

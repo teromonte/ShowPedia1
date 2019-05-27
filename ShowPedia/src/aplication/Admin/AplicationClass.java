@@ -2,13 +2,16 @@ package aplication.Admin;
 
 import java.util.ArrayList;
 
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import character.object.Personagem;
 import character.object.PersonagemClass;
@@ -19,6 +22,7 @@ import exceptions.All.InexistentEpisodeNumber;
 import exceptions.All.InexistentQuoteException;
 import exceptions.All.InexistentSeasonException;
 import exceptions.All.NegativeNumException;
+import exceptions.All.NoRomanceException;
 import exceptions.All.NonExistentActor;
 import exceptions.All.NotExistShowException;
 import exceptions.All.NotRelatedException;
@@ -37,6 +41,7 @@ import object.Quote.Quote;
 import object.Quote.QuoteClass;
 import object.Show.Show;
 import object.Show.ShowClass;
+import object.comparators.ComparatorByRomanticPartners;
 
 public class AplicationClass implements Aplication {
 
@@ -45,18 +50,20 @@ public class AplicationClass implements Aplication {
 	private Map<String, Show> shows;
 	private Map<String, LinkedList<Actor>> actorsPerShow; // a show has a collection of actors making the show
 	private Map<String, List<Show>> showsPerActors; // an has a collection of shows in which he has participated
-	private List<Actor> actorsCollection; // the application registry of all the actors
+	private SortedSet<Actor> actorsCollection; // the application registry of all the actors
 	private Map<String, Actor> virtualActors; // only virtual actors
+	private List<Actor> mostRomanticGuy;
 	// private Map<String, List<Quote>> quotesPerCharacters;
 	private Show currentShow;
 	private String currentShowName;
 
 	public AplicationClass() {
 		shows = new HashMap<String, Show>();
-		actorsCollection = new ArrayList<>();
+		actorsCollection = new TreeSet<Actor>(new ComparatorByRomanticPartners());
 		actorsPerShow = new TreeMap<String, LinkedList<Actor>>();
 		virtualActors = new TreeMap<>();
 		showsPerActors = new TreeMap<>();
+		mostRomanticGuy = new ArrayList<>();
 		// quotesPerCharacters = new TreeMap<>();
 		currentShow = null;
 		currentShowName = null;
@@ -169,15 +176,15 @@ public class AplicationClass implements Aplication {
 	 */
 	private String addVirtualActor(String characterName, String actorName, int feePerEpisode, String type)
 			throws CharacterExistException {
+		Personagem car = new PersonagemClass(characterName, actorName);
+		currentShow.addCharacter(car); // adds to a show collection of Personagems
 		if (virtualActors.containsKey(characterName)) {
 			throw new CharacterExistException();
 		} else {
 			Actor act = new VirtualActorClass(characterName, actorName, feePerEpisode, type);
 			act.addShow(currentShow);
-			Personagem car = new PersonagemClass(characterName);
-			currentShow.addCharacter(car); // adds to a show collection of Personagems
 			virtualActors.put(characterName, act); //// adds only in virtual actors collection
-			actorsCollection.add(act); // adds to the application of all kinds of actors collection
+			mostRomanticGuy.add(act); // adds to the application of all kinds of actors collection
 			actorsPerShow.get(currentShow.getShowName()).add(act); // adds to a map of showName, charactersCollection
 			// List<Quote> quotes = new ArrayList<Quote>();
 			// quotesPerCharacters.put(characterName, quotes);
@@ -197,18 +204,23 @@ public class AplicationClass implements Aplication {
 	 */
 	private String addRealActor(String characterName, String actorName, int feePerEpisode, String type)
 			throws CharacterExistException {
-		RealActor act = null;
-		if (getThisActor(actorName) == null) {
+		Personagem car2 = new PersonagemClass(characterName, actorName);
+		currentShow.addCharacter(car2); // adds to a show collection of actors
+		RealActor act = (RealActor) getThisActor(actorName);
+		if (act == null) {
 			act = new RealActorClass(characterName, actorName, feePerEpisode, type);
+			mostRomanticGuy.add(act); // adds to the application of all kinds of actors collection
+			actorsPerShow.get(currentShow.getShowName()).add(act); // adds to a map of showName, actorCollection
 		} else {
 			act = (RealActor) getThisActor(actorName);
+			mostRomanticGuy.remove(searIndex(actorName));
+			Personagem car = new PersonagemClass(characterName, actorName);
+			act.addCharacter(car);
+			mostRomanticGuy.add(act);
 		}
+		act.addCharacter(car2);
 		act.addShow(currentShow);
-		act.addCharacter(characterName);
-		Personagem car = new PersonagemClass(characterName);
-		currentShow.addCharacter(car); // adds to a show collection of actors
-		actorsCollection.add(act); // adds to the application of all kinds of actors collection
-		actorsPerShow.get(currentShow.getShowName()).add(act); // adds to a map of showName, charactersCollection
+
 		addShowToActorCollection(actorName);
 		// List<Quote> quotes = new ArrayList<Quote>();
 		// quotesPerCharacters.put(characterName, quotes);
@@ -233,6 +245,13 @@ public class AplicationClass implements Aplication {
 			Personagem partner2 = currentShow.getThisCharacter(character2);
 			partner1.addRomanticPartner(partner2);
 			partner2.addRomanticPartner(partner1);
+			mostRomanticGuy.get(searIndex(partner1.getActorName())).addCharacter(partner1);
+			mostRomanticGuy.get(searIndex(partner2.getActorName())).addCharacter(partner2);
+				mostRomanticGuy.get(searIndex(partner1.getActorName())).upDateNumberOfShowsWithRelation(currentShow.getShowName());
+				mostRomanticGuy.get(searIndex(partner2.getActorName())).upDateNumberOfShowsWithRelation(currentShow.getShowName());
+			
+			//addCharacter_Romance_ToActor(character1, partner1);
+		//	addCharacter_Romance_ToActor(character2, partner2);
 			return String.format("%s and %s are now a couple.", character1, character2);
 		}
 	}
@@ -358,22 +377,50 @@ public class AplicationClass implements Aplication {
 		}
 	}
 
-	public Iterator<Show> iterateParticipatedShows(String characterName) throws NotExistShowException, VirtualActorException, NonExistentActor {
-		boolean virtual = false;
+	public Iterator<Show> iterateParticipatedShows(String characterName)
+			throws NotExistShowException, VirtualActorException, NonExistentActor {
 		if (!isThereSelectedShow()) {
 			throw new NotExistShowException();
-		} 
-		Iterator<Actor> it = actorsCollection.iterator();
+		}
+		Iterator<Actor> it = mostRomanticGuy.iterator();
 		while (it.hasNext()) {
 			Actor act = it.next();
 			if (act.hasThisCharacter(characterName)) {
-				if( act instanceof VirtualActorClass) {
+				if (act instanceof VirtualActorClass) {
 					throw new VirtualActorException();
 				}
 				return act.getAllShows();
 			}
 		}
 		throw new NonExistentActor();
+	}
+
+	public Iterator<Actor> mostRomantic(String actorName) throws NonExistentActor, NoRomanceException {
+		Actor fromElement = null;
+		if(searIndex(actorName)!=-1) {
+			fromElement = mostRomanticGuy.get(searIndex(actorName));
+		}
+		if (fromElement == null) {
+			throw new NonExistentActor();
+		} else if (fromElement.myRelationsNum() == 0) {
+			throw new NoRomanceException();
+		}
+		return listRomanticGuys(mostRomanticGuy).iterator();
+	}
+/////////////this method sorts all the actors by a specific comparator
+	private SortedSet<Actor> listRomanticGuys( List<Actor> l){
+		SortedSet<Actor> oo = new TreeSet<>(new ComparatorByRomanticPartners());
+		Iterator< Actor> ac = l.iterator();
+		while(ac.hasNext()) {
+			Actor real = ac.next();
+			if(real instanceof RealActorClass) {
+				oo.add(real);
+			}
+		}
+		return oo;
+	}
+	public Iterator<Actor> allActors() {
+		return listRomanticGuys(mostRomanticGuy).iterator();
 	}
 
 	private boolean mapContainsThisKey(String showName) {
@@ -406,11 +453,23 @@ public class AplicationClass implements Aplication {
 //	}
 
 	private Actor getThisActor(String actorName) {
-		for (Actor actor : actorsCollection) {
+		for (Actor actor : mostRomanticGuy) {
 			if (actorName.equalsIgnoreCase(actor.getActorName())) {
 				return actor;
 			}
 		}
 		return null;
+	}
+	private int searIndex(String name) {
+		int count = 0;
+		Iterator<Actor> ac = mostRomanticGuy.iterator();
+		while(ac.hasNext()) {
+			Actor n = ac.next();
+			if(n.getActorName().equalsIgnoreCase(name)) {
+				return count;
+			}
+			count++;
+		}
+		return -1;
 	}
 }

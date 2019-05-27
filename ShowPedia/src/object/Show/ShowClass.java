@@ -3,6 +3,7 @@ package object.Show;
 
 import java.util.ArrayList;
 
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,12 +17,10 @@ import exceptions.All.CharacterExistException;
 import object.Episode.Episode;
 import object.Episode.EpisodeClass;
 import object.Event.Event;
-import object.Quote.Quote;
 
 public class ShowClass implements Show {
 	
 	Map<Integer, List<Episode>> episodesPerSeason; // <TEMPORADA,EPISODIOS>
-	
 	Map<String, Personagem> characters; // a collection of characters featuring the show
 
 	private int totalEpisodeCount;
@@ -71,7 +70,7 @@ public class ShowClass implements Show {
 	public Map<Integer, List<Episode>> getEpisodesPerSeason() {
 		return episodesPerSeason;
 	}
-
+	
 	public void addEpisodeToSeason(int season, String episodeName) {
 		totalEpisodeCount++;
 		Episode p = new EpisodeClass(episodeName,episodesPerSeason.get(season).size() + 1, season);
@@ -194,6 +193,16 @@ public class ShowClass implements Show {
 		}
 		return null;
 	}
+//	public boolean thisActorHasRelation(String actorName) {
+//		Iterator<Personagem> pp = iterateAllCharacters();
+//		while(pp.hasNext()) {
+//			Personagem r = pp.next();
+//			if(r.getCharacterName().equalsIgnoreCase(actorName)&&r.getLovers().size()!=0) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	public void updateSiblings(Personagem parent) {
 		Iterator<Personagem> it = characters.values().iterator();
 		while(it.hasNext()) {
