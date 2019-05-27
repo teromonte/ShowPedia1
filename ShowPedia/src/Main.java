@@ -125,6 +125,7 @@ public class Main {
 		case ALSOAPPEARSON: alsoAppearsOn(in, a1);break;
 		case MOSTROMANTIC: mostRomantic(in, a1);break;
 		case ALLACTORS: allActors(a1);break;
+		
 		default:
 			break;
 		}

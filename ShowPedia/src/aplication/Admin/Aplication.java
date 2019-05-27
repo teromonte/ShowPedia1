@@ -20,6 +20,7 @@ import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import exceptions.All.VirtualActorException;
 import object.Actor.Actor;
+import object.Actor.VirtualActor;
 import object.Actor.VirtualActorClass;
 import object.Episode.Episode;
 import object.Show.Show;
@@ -223,4 +224,6 @@ public interface Aplication {
 	Iterator<Actor> mostRomantic(String actorName) throws NonExistentActor, NoRomanceException;
 	
 	Iterator<Actor> allActors();
+	
+	public Iterator<VirtualActor> kingOfCgi();
 }

@@ -418,7 +418,18 @@ public class AplicationClass implements Aplication {
 		}
 		return listRomanticGuys(mostRomanticGuy).iterator();
 	}
-
+	
+	public Iterator<VirtualActor> kingOfCgi(){
+		SortedSet<VirtualActor> oo = new TreeSet<>(new ComparatorCgiByRevenue());
+		Iterator<VirtualActor> ac = virtualActors.iterator();
+		while (ac.hasNext()) {
+			VirtualActor real = ac.next();
+			if (real instanceof RealActorClass) {
+				oo.add(real);
+			}
+		}
+		return oo.iterator();
+	}
 /////////////this method sorts all the actors by a specific comparator
 	private SortedSet<Actor> listRomanticGuys(List<Actor> l) {
 		SortedSet<Actor> oo = new TreeSet<>(new ComparatorByRomanticPartners());
