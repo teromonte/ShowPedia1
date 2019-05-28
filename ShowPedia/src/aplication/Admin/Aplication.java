@@ -225,5 +225,14 @@ public interface Aplication {
 	
 	Iterator<Actor> allActors();
 	
-	public Iterator<VirtualActor> kingOfCgi();
+	/**
+	 * It simply presents the company with the highest revenue on CGI virtual
+	 * actors.
+	 * 
+	 * @return
+	 * @throws EmptyCollectionException If no virtual characters exist
+	 */
+	public  VirtualActor kingOfCgi() throws EmptyCollectionException;
+	
+	Iterator<VirtualActor> empresas();
 }

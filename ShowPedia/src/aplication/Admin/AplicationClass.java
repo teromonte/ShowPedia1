@@ -173,7 +173,7 @@ public class AplicationClass implements Aplication {
 	 * @param type
 	 * @throws CharacterExistException
 	 */
-	private String addVirtualActor(String characterName, String actorName, int feePerEpisode, String type)
+	private String addVirtualActor(String characterName, String actorName, int feePerSeason, String type)
 			throws CharacterExistException {
 		if (currentShow.ThereThisCharacter(characterName)) {
 			throw new CharacterExistException();
@@ -182,10 +182,11 @@ public class AplicationClass implements Aplication {
 			currentShow.addCharacter(car); // adds to a show collection of Personagems
 			VirtualActor act = null;
 			if (getThisVirtualActor(actorName) == null) {
-				act = new VirtualActorClass(characterName, actorName, feePerEpisode, type);
+				act = new VirtualActorClass(characterName, actorName, feePerSeason, type);
 				act.addCharacter(car);
-			}else {
+			} else {
 				act = getThisVirtualActor(actorName);
+				act.insertCharacterNameWithPayment(characterName, feePerSeason);
 				act.addCharacter(car);
 			}
 			act.addShow(currentShow);
@@ -211,6 +212,9 @@ public class AplicationClass implements Aplication {
 	 */
 	private String addRealActor(String characterName, String actorName, int feePerEpisode, String type)
 			throws CharacterExistException {
+		if(currentShow.ThereThisCharacter(characterName)) {
+			throw new CharacterExistException();
+		}
 		Personagem car2 = new PersonagemClass(characterName, actorName);
 		currentShow.addCharacter(car2); // adds to a show collection of actors
 		RealActor act = (RealActor) getThisActor(actorName);
@@ -267,7 +271,7 @@ public class AplicationClass implements Aplication {
 
 	public void addEvent(String eventName, int seasonNum, int episodeNum, int nrPlayersIn, String[] playersNames)
 			throws NotExistShowException, InexistentSeasonException, InexistentEpisodeNumber, NonExistentActor {
-
+		
 		if (!isThereSelectedShow()) {
 			throw new NotExistShowException();
 		} else if (seasonNum < 0 || seasonNum > currentShow.getNumberOfSeasons()) {
@@ -288,6 +292,9 @@ public class AplicationClass implements Aplication {
 		while (j < nrPlayersIn) {
 			String personagem = playersNames[j];
 			Personagem cc = currentShow.getThisCharacter(personagem);
+			if(getThisActor(cc.getActorName()) instanceof VirtualActorClass) {
+				getThisVirtualActor(cc.getActorName()).insertCharacterNameWithNumSeasons(cc.getCharacterName(), seasonNum);
+			}
 			event.addCharacter(cc);
 			cc.addEvent(event);
 			j++;
@@ -353,13 +360,17 @@ public class AplicationClass implements Aplication {
 			throw new InexistentSeasonException();
 		} else if (episode > currentShow.getThisSeason(season).size()) {
 			throw new InexistentEpisodeNumber();
-		} 
+		}
 		Personagem pp = currentShow.getThisCharacter(character);
 		if (pp == null) {
 			throw new NonExistentActor();
 		} else {
 			Quote qq = new QuoteClass(season, episode, character, quote);
 			pp.getMyQuotes().add(qq);
+			if(getThisActor(pp.getActorName()) instanceof VirtualActorClass) {
+				getThisVirtualActor(pp.getActorName()).insertCharacterNameWithNumSeasons(character, season);
+			}
+			
 			// quotesPerCharacters.get(hasThisCharacterAQuote(character)).add(qq);
 		}
 	}
@@ -418,17 +429,27 @@ public class AplicationClass implements Aplication {
 		}
 		return listRomanticGuys(mostRomanticGuy).iterator();
 	}
-	
-	public Iterator<VirtualActor> kingOfCgi(){
-		SortedSet<VirtualActor> oo = new TreeSet<>(new ComparatorCgiByRevenue());
+
+	public VirtualActor kingOfCgi() throws EmptyCollectionException {
+		if (virtualActors.isEmpty()) {
+			throw new EmptyCollectionException();
+		}
+		SortedSet<VirtualActor> virtual = new TreeSet<>(new ComparatorCgiByRevenue());
 		Iterator<VirtualActor> ac = virtualActors.iterator();
 		while (ac.hasNext()) {
 			VirtualActor real = ac.next();
-			if (real instanceof RealActorClass) {
-				oo.add(real);
-			}
+			virtual.add(real);
 		}
-		return oo.iterator();
+		return virtual.last();
+	}
+	public Iterator<VirtualActor> empresas(){
+		SortedSet<VirtualActor> virtual = new TreeSet<>(new ComparatorCgiByRevenue());
+		Iterator<VirtualActor> ac = virtualActors.iterator();
+		while (ac.hasNext()) {
+			VirtualActor real = ac.next();
+			virtual.add(real);
+		}
+		return virtual.iterator();
 	}
 /////////////this method sorts all the actors by a specific comparator
 	private SortedSet<Actor> listRomanticGuys(List<Actor> l) {

@@ -24,6 +24,7 @@ import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import exceptions.All.VirtualActorException;
 import object.Actor.Actor;
+import object.Actor.VirtualActor;
 import object.Episode.Episode;
 import object.Event.Event;
 import object.Show.Show;
@@ -52,6 +53,7 @@ public class Main {
 	private static final String NOT_RELATED = "These characters are not related!";
 	private static final String PLAYED_BY_VIRTUAL ="%s is played by a virtual actor!\n";
 	private static final String NO_ROMANTIC_RELATIONS = "Love is not in the air!";
+	private static final String NO_CGI_ACTORS = "This is the real thing, this is art!";
 
 	public static void main(String[] args) {
 		Aplication a1 = new AplicationClass();
@@ -125,7 +127,8 @@ public class Main {
 		case ALSOAPPEARSON: alsoAppearsOn(in, a1);break;
 		case MOSTROMANTIC: mostRomantic(in, a1);break;
 		case ALLACTORS: allActors(a1);break;
-		
+		case KINGOFCGI: kingOfCgi(a1);break;
+		case EMPRESAS:empresas(a1);break;
 		default:
 			break;
 		}
@@ -333,7 +336,7 @@ public class Main {
 		fatherNames(pp.iterateParents());
 		System.out.print("Kids: ");
 		fatherNames(pp.iterateSons());
-		System.out.print("Siblings:");
+		System.out.print("Siblings: ");
 		fatherNames(pp.iterateSiblings());
 		System.out.print("Romantic relationships: ");
 		fatherNames(pp.iterateRomanticPartners());
@@ -455,6 +458,20 @@ public class Main {
 		while(it.hasNext()) {
 			Actor cc = it.next();
 			System.out.println(cc.getActorName()+" "+cc.myRelationsNum()+" "+cc.numberOfParticipatedShowsWithRelation());
+		}
+	}
+	private static void kingOfCgi(Aplication a1) {
+		try {
+			System.out.println(a1.kingOfCgi().getActorName()+" "+a1.kingOfCgi().totalRevenue());
+		}catch(EmptyCollectionException exception) {
+			System.out.println(NO_CGI_ACTORS);
+		}
+	}
+	private static void empresas(Aplication a1) {
+		Iterator<VirtualActor> emp = a1.empresas();
+		while(emp.hasNext()) {
+			VirtualActor vv= emp.next();
+			System.out.println(vv.getActorName() +" " +vv.totalRevenue());
 		}
 	}
 }

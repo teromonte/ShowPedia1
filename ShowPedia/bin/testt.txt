@@ -147,14 +147,14 @@
 > Ygritte
 > Arya Stark, Jon Snow, Ned Stark
 > Daenerys Targaryen
-> Unknown command. Type help to see available commands.
+> Tech company Dragons 1900
 > Event added.
-> Unknown command. Type help to see available commands.
+> Tech company Direwolves 2500
 > Event added.
 > Event added.
-> Unknown command. Type help to see available commands.
+> Tech company Dragons 2700
 > Quote added.
-> Unknown command. Type help to see available commands.
+> Tech company Direwolves 3000
 > Event added.
-> Unknown command. Type help to see available commands.
+> Tech company Direwolves 3500
 > Bye!
