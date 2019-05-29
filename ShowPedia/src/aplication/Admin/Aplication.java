@@ -223,8 +223,6 @@ public interface Aplication {
 	 */
 	Iterator<Actor> mostRomantic(String actorName) throws NonExistentActor, NoRomanceException;
 	
-	Iterator<Actor> allActors();
-	
 	/**
 	 * It simply presents the company with the highest revenue on CGI virtual
 	 * actors.
@@ -234,5 +232,4 @@ public interface Aplication {
 	 */
 	public  VirtualActor kingOfCgi() throws EmptyCollectionException;
 	
-	Iterator<VirtualActor> empresas();
 }

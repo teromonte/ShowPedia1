@@ -2,6 +2,8 @@
 
 import java.util.Iterator;
 
+
+
 import java.util.Scanner;
 
 import aplication.Admin.Aplication;
@@ -24,7 +26,6 @@ import exceptions.All.SameCharacterException;
 import exceptions.All.UnknownActorTypeException;
 import exceptions.All.VirtualActorException;
 import object.Actor.Actor;
-import object.Actor.VirtualActor;
 import object.Episode.Episode;
 import object.Event.Event;
 import object.Show.Show;
@@ -126,9 +127,7 @@ public class Main {
 		case FAMOUSQUOTES:famousQuotes(in, a1);break;
 		case ALSOAPPEARSON: alsoAppearsOn(in, a1);break;
 		case MOSTROMANTIC: mostRomantic(in, a1);break;
-		case ALLACTORS: allActors(a1);break;
 		case KINGOFCGI: kingOfCgi(a1);break;
-		case EMPRESAS:empresas(a1);break;
 		default:
 			break;
 		}
@@ -151,6 +150,7 @@ public class Main {
 
 	private static void currentShow(Aplication a1) {
 		try {
+			
 			System.out.println(a1.getCurrentShow());
 		} catch (NotExistShowException except) {
 			System.out.println(NO_SHOW_SELECTED);
@@ -174,7 +174,6 @@ public class Main {
 		} catch (NotExistShowException except) {
 			System.out.println(NO_SHOW_SELECTED);
 		}
-
 	}
 
 	private static void addEpisodeToSeason(Scanner in, Aplication a1) {
@@ -443,9 +442,7 @@ public class Main {
 				if(cc.getActorName().equalsIgnoreCase(actorName)) {
 					good=true;
 				}
-		//		if(good) {
-					System.out.println(cc.getActorName()+" "+cc.myRelationsNum());
-		//		}	
+					System.out.println(cc.getActorName()+" "+cc.myRelationsNum());	
 			}
 		}catch (NonExistentActor exception) {
 			System.out.printf(NON_EXISTENT_CHARACTER,actorName);
@@ -453,25 +450,12 @@ public class Main {
 			System.out.println(NO_ROMANTIC_RELATIONS);
 		}
 	}
-	private static void allActors(Aplication a1) {
-		Iterator<Actor> it = a1.allActors();
-		while(it.hasNext()) {
-			Actor cc = it.next();
-			System.out.println(cc.getActorName()+" "+cc.myRelationsNum()+" "+cc.numberOfParticipatedShowsWithRelation());
-		}
-	}
+
 	private static void kingOfCgi(Aplication a1) {
 		try {
 			System.out.println(a1.kingOfCgi().getActorName()+" "+a1.kingOfCgi().totalRevenue());
 		}catch(EmptyCollectionException exception) {
 			System.out.println(NO_CGI_ACTORS);
-		}
-	}
-	private static void empresas(Aplication a1) {
-		Iterator<VirtualActor> emp = a1.empresas();
-		while(emp.hasNext()) {
-			VirtualActor vv= emp.next();
-			System.out.println(vv.getActorName() +" " +vv.totalRevenue());
 		}
 	}
 }
