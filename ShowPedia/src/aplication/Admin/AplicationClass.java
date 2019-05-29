@@ -88,9 +88,8 @@ public class AplicationClass implements Aplication {
 		if (currentShow == null) {
 			throw new NotExistShowException();
 		}
-		int numberOfEpisodes = currentShow.getAllEpisodesNumber();
-		return String.format("%s. Seasons: %d Episodes: %d", currentShow.getShowName(),
-				currentShow.getNumberOfSeasons(), numberOfEpisodes);
+		return String.format("%s. Seasons: %d Episodes: %d",getCurrentShowObject().getShowName(),
+					getCurrentShowObject().getNumberOfSeasons(), getCurrentShowObject().getAllEpisodesNumber());
 	}
 
 	public Show getCurrentShowObject() {
@@ -442,15 +441,7 @@ public class AplicationClass implements Aplication {
 		}
 		return virtual.last();
 	}
-	public Iterator<VirtualActor> empresas(){
-		SortedSet<VirtualActor> virtual = new TreeSet<>(new ComparatorCgiByRevenue());
-		Iterator<VirtualActor> ac = virtualActors.iterator();
-		while (ac.hasNext()) {
-			VirtualActor real = ac.next();
-			virtual.add(real);
-		}
-		return virtual.iterator();
-	}
+	
 /////////////this method sorts all the actors by a specific comparator
 	private SortedSet<Actor> listRomanticGuys(List<Actor> l) {
 		SortedSet<Actor> oo = new TreeSet<>(new ComparatorByRomanticPartners());
@@ -462,10 +453,6 @@ public class AplicationClass implements Aplication {
 			}
 		}
 		return oo;
-	}
-
-	public Iterator<Actor> allActors() {
-		return listRomanticGuys(mostRomanticGuy).iterator();
 	}
 
 	private boolean mapContainsThisKey(String showName) {
